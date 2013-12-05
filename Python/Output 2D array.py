@@ -1,9 +1,7 @@
 #Global Variables. Can ask for input in later versions
 juliaC=[-1,0]
-xMin=-2
-xMax=2
-yMin=-2
-yMax=2
+xMin,yMin=-2,-2
+xMax,yMax=2,2
 resolution=10
 sizeLimit=100
 iterationsLimit=1000
@@ -17,13 +15,13 @@ def PlotJulia():          			# Overall Function to make a 2D array and fill it
       outputTable[i].append(findNumber(i,j))	# fill each cell with a value
   return outputTable
       
-def findNumber(i,j):					# function to find how many iterations before the number explodes. 
+def findNumber(i,j):				# function to find how many iterations before the number explodes. 
   iterations=0					# 
   x=xMin+j*(xMax-xMin)/resolution		# transform array j coordinate to complex plane x coordinates?
-  y=yMax-i*(yMax-yMin)/resolution	# transform array i coordinate to complex plane y coordinate
+  y=yMax-i*(yMax-yMin)/resolution		# transform array i coordinate to complex plane y coordinate
   while (x^2<sizeLimit) and (y^2<sizeLimit) and (iterations<iterationsLimit): 
-	x,y=(x*x-y*y+juliaC[0]),(2*x*y+juliaC[1])	# apply function
-	iterations=iterations+1					# increment iterations counter
-  return iterations					# output as function value
+	x,y=(x*x-y*y+juliaC[0]),(2*x*y+juliaC[1])# apply function
+	iterations=iterations+1			# increment iterations counter
+  return iterations				# output as function value
 
 print(PlotJulia())
