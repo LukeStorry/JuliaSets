@@ -1,17 +1,23 @@
 <html>
   <head>
-    <script>
-      
-    </script>
   </head>
-  <body>
-  <a href http://www.w3schools.com/html/html5_canvas.asp > </a>
-  <canvas>
-    
-  </canvas>
-    
+   <body>
+     <a href="http://www.w3schools.com/html/html5_canvas.asp"> </a>
+     <canvas id="JuliaSet" width="500" height="500" style="border:1px solid #000000;">
+     Your browser does not support the HTML5 canvas tag. </canvas>
+    <script>
+      var resolution=10
+      var size=500
+      var canvas=document.getElementById("JuliaSet");
+      for(var i=0;i<(size/resolution);i++){
+        for(var j=0;j<(size/resolution);j++){
+          var rectangle=canvas.getContext("2d")
+          rectangle.fillStyle="#FF"+j.toString()+i.toString();
+          rectangle.fillRect(50*i,50*j,49,49);
+        }
+      }
+    </script>
   </body>
 </html>
-
 
 
