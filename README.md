@@ -3,9 +3,13 @@
 
 ####This leads on from my EE, a brief presentation can be found here: http://prezi.com/cyg1ladocm9d/my-extended-essay-exploring-julia-sets/
 
-I've re-written the code in python, but there are some syntax errors, please let me know what is going wrong, Pyhton isn't my strong point.
-Also for Python, I'm looking for an easy way to output an image made up of lots of squares.
 
-I'm also working on using Javascript and outputting the image in HTML, wither canvas or table.
+Originally Javascript, but the output doesn't look like a Julia Set should. #Any Ideas why?
+
+I've re-written the code in Python, but there are still the same errors.
+Please improve my Python if it is bad, it's not my strongest language.
+Also for Python, I'm looking for an easy way to output an image made up of lots of squares. Is there a way to output arrays to image file?
+
+I'm also working on using Javascript to output the image in HTML, either canvas or as a table.
 
 ####Any help appreciated, but please don't fork!
