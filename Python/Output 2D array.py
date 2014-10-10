@@ -12,20 +12,26 @@ def findNumber(i,j):				# function to find how many iterations before the number
     y=yMax-i*(yMax-yMin)/resolution		# transform array i coordinate to complex plane y coordinate
     while (abs(x)<sizeLimit) and (abs(y)<sizeLimit) and (iterations<iterationsLimit): 
 	    (x,y)=(x*x-y*y+juliaC[0]),(2*x*y+juliaC[1])# apply function
-	    iterations++    			# increment iterations counter
+	    iterations+=1    			# increment iterations counter
     return iterations				# output as function value
 
-def PlotJulia():              		# Overall Function to make a 2D array and fill it
-    outputTable = []					# Initializes the list.
+def PlotJulia():              		# Overall Function to make a 2D array and fill it 
+    outputTable = []        			# Initializes the list.
     for i in range(0,resolution):			# Make a list of rows, to the resolution wanted.
         outputTable.append([])
         for j in range(0,resolution):		# In each row list, make a list of columns.
             outputTable[i].append(findNumber(i,j))	# fill each cell with a value
     return outputTable
+    
 
-def OutputArray():					# Initializes the list.
+def OutputArray(table):					# Initializes the list.
     for i in range(0,resolution):			# In each row,.
         for j in range(0,resolution):		# In each cell, 
-            print("%3.2f ", outputTable[i][j] #output cell
-        print("\n")     #then newline
+            print table[i][j]., #output cell
+        print ''     #then newline
         
+
+
+#main:
+
+OutputArray(PlotJulia())
