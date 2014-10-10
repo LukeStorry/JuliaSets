@@ -7,16 +7,16 @@ yRes=20				#how many pizels to have in y direction
 iterationsLimit=100
 
 def Exeeded(iterations):
-	if iterations>iterationsLimit:
-	    return true
-	else
-	    return false
+    if iterations>iterationsLimit:
+        return True
+    else:
+        return False
 
 def Escaped(x,y):
     if (abs(x)>1-juliaC[0]) and (abs(y)>1-juliaC[1]) :
-        return true
-	else
-	    return false
+        return True
+    else:
+        return False
 
 def TransformJX(j):
     return xMin+j*(xMax-xMin)/xRes		# transform array j coordinate to complex plane x coordinates
@@ -31,23 +31,23 @@ def findNumber(i,j):        		# function to find how many iterations before the 
     iterations=0					# 
     x=TransformJX(j)                #translates array coordinates into complex numbers
     y=TransformIY(i)
-    while not Escaped(x,y) and not Exeeded(iterations)): 
+    while (not Escaped(x,y) and not Exeeded(iterations)): 
 	    x,y = Iterate(x,y)
 	    iterations+=1    			# increment iterations counter
     return iterations				# output as function value
 
 def PlotJulia():              		# Overall Function to make a 2D array and fill it 
     outputTable = []        			# Initializes the list.
-    for i in range(0,resolution):			# Make a list of rows, to the resolution wanted.
+    for i in range(0,yRes):			# Make a list of rows, to the resolution wanted.
         outputTable.append([])
-        for j in range(0,resolution):		# In each row list, make a list of columns.
+        for j in range(0,xRes):		# In each row list, make a list of columns.
             outputTable[i].append(findNumber(i,j))	# fill each cell with a value
     return outputTable
     
 
 def OutputArray(table):					# Initializes the list.
-    for i in range(0,resolution):			# In each row,.
-        for j in range(0,resolution):		# In each cell, 
+    for i in range(0,yRes):			# In each row,.
+        for j in range(0,xRes):		# In each cell, 
             print repr(table[i][j]).rjust(2), #output cell
         print ''     #then newline
         
