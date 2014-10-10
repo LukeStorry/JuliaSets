@@ -2,11 +2,11 @@
 juliaC=[-1,0]
 xMin,yMin=-2.1,-2.1
 xMax,yMax=2,2
-resolution=10
-sizeLimit=100
+resolution=20
+sizeLimit=3
 iterationsLimit=100
 
-def findNumber(i,j):				# function to find how many iterations before the number explodes. 
+def findNumber(i,j):        		# function to find how many iterations before the number explodes. 
     iterations=0					# 
     x=xMin+j*(xMax-xMin)/resolution		# transform array j coordinate to complex plane x coordinates?
     y=yMax-i*(yMax-yMin)/resolution		# transform array i coordinate to complex plane y coordinate
@@ -27,7 +27,7 @@ def PlotJulia():              		# Overall Function to make a 2D array and fill i
 def OutputArray(table):					# Initializes the list.
     for i in range(0,resolution):			# In each row,.
         for j in range(0,resolution):		# In each cell, 
-            print table[i][j]., #output cell
+            print repr(table[i][j]).rjust(2), #output cell
         print ''     #then newline
         
 
