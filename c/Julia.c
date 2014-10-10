@@ -13,7 +13,7 @@ typedef struct {
     float y;
 }complex;
 
-const complex JULC {0,1};
+const complex JULC = {0,1};
 
 
 
@@ -21,12 +21,13 @@ const complex JULC {0,1};
 //Is there a library for complexes?
 
 complex Iterate(complex input) {
-    return({input.x*input.x-input.y*input.y,2*input.x*input.b});
+    return(input.x*input.x-input.y*input.y,2*input.x*input.y);
 };
 
 
 complex Transform(complex input) {
-    return({/*calculate the algorithm what goes here*/};
+    complex output = {/*calculate the algorithm what goes here*/};
+    return output;
 };
 
 bool ExeededMax(short input){
