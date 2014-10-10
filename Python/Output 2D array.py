@@ -1,17 +1,38 @@
 #Global Variables. Can ask for input in later versions
-juliaC=[-1,0]
-xMin,yMin=-2.1,-2.1
-xMax,yMax=2,2
-resolution=20
-sizeLimit=3
+juliaC=[-1,0]			#Which Julia set to produce
+xMin,yMin=-2.1,-2.1		#range of x coordinates for windows to contain
+xMax,yMax=2,2			#range of y coordinates for windows to contain
+xRes=20				#How many pixels to have in x direction
+yRes=20				#how many pizels to have in y direction
 iterationsLimit=100
 
+def Exeeded(iterations):
+	if iterations>iterationsLimit:
+	    return true
+	else
+	    return false
+
+def Escaped(x,y):
+    if (abs(x)>1-juliaC[0]) and (abs(y)>1-juliaC[1]) :
+        return true
+	else
+	    return false
+
+def TransformJX(j):
+    return xMin+j*(xMax-xMin)/xRes		# transform array j coordinate to complex plane x coordinates
+    
+def TransformIY(i):
+    return yMax-i*(yMax-yMin)/yRes		# transform array i coordinate to complex plane y coordinate
+    
+def Iterate(x,y):
+    return (x*x-y*y+juliaC[0]),(2*x*y+juliaC[1])# square number and add C
+    
 def findNumber(i,j):        		# function to find how many iterations before the number explodes. 
     iterations=0					# 
-    x=xMin+j*(xMax-xMin)/resolution		# transform array j coordinate to complex plane x coordinates?
-    y=yMax-i*(yMax-yMin)/resolution		# transform array i coordinate to complex plane y coordinate
-    while (abs(x)<sizeLimit) and (abs(y)<sizeLimit) and (iterations<iterationsLimit): 
-	    (x,y)=(x*x-y*y+juliaC[0]),(2*x*y+juliaC[1])# apply function
+    x=TransformJX(j)                #translates array coordinates into complex numbers
+    y=TransformIY(i)
+    while not Escaped(x,y) and not Exeeded(iterations)): 
+	    x,y = Iterate(x,y)
 	    iterations+=1    			# increment iterations counter
     return iterations				# output as function value
 
