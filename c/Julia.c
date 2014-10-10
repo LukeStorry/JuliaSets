@@ -1,33 +1,38 @@
-#define MINX -2
-#define MAXX 2
-#define MINY -2
-#define MAXY 2       //just some options,will ask for input in later versions of program.
-#define RESX 10
-#define RESY 10
-#define MAXINTS 100
-#define ESCX 1-JULC.x
-#define ESCY 1-JULC.y
+#define ESCX 1-julC.x
+#define ESCY 1-julC.y
+
+#include<stdio.h>
 
 typedef struct {
     float x;
     float y;
 }complex;
 
-const complex JULC = {0,1};
 
+ //These just some options,will ask for input in later versions of program.
+const minX -2
+const maxX 2
+const minY -2
+const maxY 2
+const resX 10
+const resY 10
+const maxInt 100
+const complex julC= {0,1};
 
-
-#include<stdio.h>
-//Is there a library for complexes?
 
 complex Iterate(complex input) {
-    return(input.x*input.x-input.y*input.y,2*input.x*input.y);
+    complex output;
+    output.x=input.x*input.x-input.y*input.y;
+    output.y=2*input.x*input.y);
+    return (output);
 };
 
 
 complex Transform(complex input) {
-    complex output = {/*calculate the algorithm what goes here*/};
-    return output;
+    complex output;
+    output.x = 1/*calculate the algorithm what goes here*/;
+    output.y = 1/*here too*/;
+    return (output);
 };
 
 bool ExeededMax(short input){
