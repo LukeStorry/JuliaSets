@@ -40,11 +40,11 @@ short ExceededMax(int input){
 };
 
 short Escaped(complex input){
-    if (input.x>escX||input.y>escY) {return 1;}
+    if (input.x>ESCX||input.y>ESCY) {return 1;}
         else {return 0;};
 };
 
-short FindValue(complex input){
+int FindValue(complex input){
     complex point=Transform(input);
     int iterations=1;
     while( (! ExceededMax(iterations)) && (! Escaped(point))){
@@ -55,17 +55,18 @@ short FindValue(complex input){
 };
 
 
-short CalcJuliaSet[resY][resX](void){
-    short outputTable[resY][resX];
-    for(short i=0;i<resY;i++){
-        for(short j=0;j<resX;j++){
-        //complex input =     
-        outputTable[i][j]=FindValue({i,j});
+int * CalcJuliaSet(void){
+    int outputTable[resY][resX];
+    for(int i=0;i<resY;i++){
+        for(int j=0;j<resX;j++){
+            complex input = {i,j};
+            outputTable[i][j]=FindValue(input);
         };
      };
+    return outputTable;
 };
 
-int output(short input[resY][resX]){
+int output(* input[resY][resX]){
     ;
 };
 
