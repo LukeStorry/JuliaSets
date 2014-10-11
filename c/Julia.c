@@ -8,22 +8,21 @@ typedef struct {
     float y;
 }complex;
 
-
- //These just some options,will ask for input in later versions of program.
-const minX -2
-const maxX 2
-const minY -2
-const maxY 2
-const resX 10
-const resY 10
-const maxInt 100
-const complex julC= {0,1};
+//These just some options,will ask for input in later versions of program.
+const minX = -2;
+const maxX = 2;
+const minY = -2;
+const maxY = 2;
+const resX = 10;
+const resY = 10;
+const maxInt = 100;
+const complex julC = {0,1};
 
 
 complex Iterate(complex input) {
     complex output;
-    output.x=input.x*input.x-input.y*input.y;
-    output.y=2*input.x*input.y);
+    output.x=input.x*input.x-input.y*input.y +julC.x;
+    output.y=2*input.x*input.y +julC.y;
     return (output);
 };
 
@@ -35,20 +34,20 @@ complex Transform(complex input) {
     return (output);
 };
 
-bool ExeededMax(short input){
-    if (input>MAXINTS) {return true;}
+bool ExceededMax(short input){
+    if (input>maxInts) {return true;}
         else {return false;};
 };
 
-bool Escaped(complex input)
-    if (input.x>ESCX||input.y>ESCY) {return true;}
+bool Escaped(complex input){
+    if (input.x>escX||input.y>escY) {return true;}
         else {return false;};
 };
 
 short FindValue(complex input){
-    point=Transform(input);
+    complex point=Transform(input);
     int iterations=1;
-    while(!ExeededMax(iterations) && ! Escaped(point)){
+    while(!ExceededMax(iterations) && ! Escaped(point)){
         Iterate(point);
         iterations++;
     };
@@ -56,16 +55,16 @@ short FindValue(complex input){
 };
 
 
-short CalcJuliaSet[RESY][RESX](){
-    short outputTable[RESY][RESX];
-    for(short i=0;i<RESY;i++){
-        for(short j=0;j<RESX;j++){
+short CalcJuliaSet[resY][resX](void){
+    short outputTable[resY][resX];
+    for(short i=0;i<resY;i++){
+        for(short j=0;j<resX;j++){
             outputTable[i][j]=FindValue({i,j});
         };
      };
 };
 
-int output(array) {
+int output(short input[resY][resX]){
     ;
 };
 
