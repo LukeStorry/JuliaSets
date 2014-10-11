@@ -15,7 +15,7 @@ const minY = -2;
 const maxY = 2;
 const resX = 10;
 const resY = 10;
-const maxInt = 100;
+const maxIts = 100;
 const complex julC = {0,1};
 
 
@@ -34,12 +34,12 @@ complex Transform(complex input) {
     return (output);
 };
 
-int ExceededMax(short input){
-    if (input>maxInts) {return 1;}
+short ExceededMax(int input){
+    if (input>maxIts) {return 1;}
         else {return 0;};
 };
 
-int Escaped(complex input){
+short Escaped(complex input){
     if (input.x>escX||input.y>escY) {return 1;}
         else {return 0;};
 };
@@ -47,7 +47,7 @@ int Escaped(complex input){
 short FindValue(complex input){
     complex point=Transform(input);
     int iterations=1;
-    while(!ExceededMax(iterations) && ! Escaped(point)){
+    while( (! ExceededMax(iterations)) && (! Escaped(point))){
         Iterate(point);
         iterations++;
     };
@@ -59,7 +59,8 @@ short CalcJuliaSet[resY][resX](void){
     short outputTable[resY][resX];
     for(short i=0;i<resY;i++){
         for(short j=0;j<resX;j++){
-            outputTable[i][j]=FindValue({i,j});
+        //complex input =     
+        outputTable[i][j]=FindValue({i,j});
         };
      };
 };
