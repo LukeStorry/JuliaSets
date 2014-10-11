@@ -34,14 +34,14 @@ complex Transform(complex input) {
     return (output);
 };
 
-bool ExceededMax(short input){
-    if (input>maxInts) {return true;}
-        else {return false;};
+int ExceededMax(short input){
+    if (input>maxInts) {return 1;}
+        else {return 0;};
 };
 
-bool Escaped(complex input){
-    if (input.x>escX||input.y>escY) {return true;}
-        else {return false;};
+int Escaped(complex input){
+    if (input.x>escX||input.y>escY) {return 1;}
+        else {return 0;};
 };
 
 short FindValue(complex input){
