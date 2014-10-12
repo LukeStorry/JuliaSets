@@ -8,10 +8,6 @@ typedef struct {
     float y;
 }complex;
 
-typedef struct {
-     int outputTable[5][5];
-}
-
 //These just some options,will ask for input in later versions of program.
 const minX = -2;
 const maxX = 2;
@@ -22,20 +18,11 @@ const resY = 10;
 const maxIts = 100;
 const complex julC = {0,1};
 
-
-complex Iterate(complex input) {
-    complex output;
-    output.x=input.x*input.x-input.y*input.y +julC.x;
-    output.y=2*input.x*input.y +julC.y;
-    return (output);
-};
-
-
 complex Transform(complex input) {
     complex output;
     output.x = 1/*calculate the algorithm what goes here*/;
     output.y = 1/*here too*/;
-    return (output);
+    return output;
 };
 
 short ExceededMax(int input){
@@ -46,6 +33,13 @@ short ExceededMax(int input){
 short Escaped(complex input){
     if (input.x>ESCX||input.y>ESCY) {return 1;}
         else {return 0;};
+};
+
+complex Iterate(complex input) {
+    complex output;
+    output.x=input.x*input.x-input.y*input.y +julC.x;
+    output.y=2*input.x*input.y +julC.y;
+    return output;
 };
 
 int FindValue(complex input){
@@ -59,13 +53,12 @@ int FindValue(complex input){
 };
 
 
-int** CalcJuliaSet(void) {
+int** CalcJuliaSet(**table) {
     int i,j;
-    static int outputTable[5][5];
-    for(i=0;i<resY;i++){
-        for(j=0;j<resX;j++){
+    for(i=0;i<5;i++){
+        for(j=0;j<5;j++){
             complex input = {i,j};
-            outputTable[i][j]=FindValue(input);
+            table[i][j]=3; //FindValue(input);
         };
      };
     return outputTable;
@@ -76,7 +69,8 @@ int output(int** input){
 };
 
 int main(void) {
-    int** table = CalcJuliaSet;
+    int table[resX][resY];;
+    table = CalcJuliaSet(table);
     output(table);
     return 0;
 }
