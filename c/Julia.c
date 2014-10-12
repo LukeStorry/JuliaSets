@@ -1,6 +1,3 @@
-#define ESCX 1-julC.x
-#define ESCY 1-julC.y
-
 #include<stdio.h>
 
 typedef struct {
@@ -13,15 +10,15 @@ const minX = -2;
 const maxX = 2;
 const minY = -2;
 const maxY = 2;
-const resX = 20;
-const resY = 20;
-const maxIts = 1000;
+const resX = 5;
+const resY = 7;
+const maxIts = 999;
 const complex julC = {0,0};
 
 complex transform(int i, int j) {
     complex output;
-    output.x = minX+j*(maxX-minX)/resX;
-    output.y = maxY-i*(maxY-minY)/resY;
+    output.x = minX + i * (maxX - minX) / resX;
+    output.y = maxY - j * (maxY - minY) / resY;
     return output;
 };
 
@@ -30,34 +27,33 @@ short exceededMax(int input){
         else {return 0;};
 };
 
-short escaped(complex input){
-    if ( abs(input.x + julC.x) > 5 || abs(input.y + julC.y) > 5 ){return 1;}
+short escaped(complex point){
+    if ( ( abs(point.x + julC.x) > 5 ) || ( abs(point.y + julC.y) > 5 ) ){return 1;}
         else {return 0;};
 };
 
 complex iterate(complex input) {
     complex output;
-    output.x = input.x*input.x-input.y*input.y +julC.x;
-    output.y = 2*input.x*input.y +julC.y;
+    output.x = input.x * input.x - input.y * input.y + julC.x;
+    output.y = 2 * input.x * input.y + julC.y;
     return output;
 };
 
 int findValue(int i, int j){
     complex point = transform(i,j);
     int iterations = 0;
-    while( (! exceededMax(iterations)) && (! escaped(point))){
+    while( ! exceededMax(iterations) && ! escaped(point) ) {
         iterate(point);
         iterations++;
     };
     return iterations;
 };
 
-
 void calcJuliaSet(int *start) {
     int i,j;
     for(j=0 ; j<(resY) ; j++){
-        for(i=0 ; i<(resX) ; i++){
-            *(start+(j*resY)+i) = findValue(i,j);
+        for(i=0 ; i<(resX) ; i++){   
+             *(start+(j*resY)+i) = findValue(i,j);
         };
     };
 };
@@ -78,4 +74,3 @@ int main(void) {
     output(table);
     return 0;
 }
-
