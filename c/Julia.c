@@ -62,8 +62,14 @@ void calcJuliaSet(int *start) {
     };
 };
 
-void output(int* input){
-    ;
+void output(int* start){
+    int i,j;
+    for(i=0;i<(resX);i++){
+        for(j=0;j<(resY);j++){
+            printf("%4d", *(start+(i*resX)+j));
+        };
+    printf("\n");
+    };
 };
 
 int main(void) {
