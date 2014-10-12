@@ -55,9 +55,9 @@ int FindValue(complex input){
 };
 
 
-int ** CalcJuliaSet(void) {
-    static int outputTable[resY][resX];
+int** CalcJuliaSet(void) {
     int i,j;
+    int** outputTable;
     for(i=0;i<resY;i++){
         for(j=0;j<resX;j++){
             complex input = {i,j};
@@ -67,12 +67,13 @@ int ** CalcJuliaSet(void) {
     return outputTable;
 };
 
-int output(int ** input){
+int output(int** input){
     ;
 };
 
 int main(void) {
-    output(CalcJuliaSet());
+    int** table = CalcJuliaSet;
+    output(table);
     return 0;
 }
 
