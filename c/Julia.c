@@ -8,6 +8,10 @@ typedef struct {
     float y;
 }complex;
 
+typedef struct {
+     int outputTable[5][5];
+}
+
 //These just some options,will ask for input in later versions of program.
 const minX = -2;
 const maxX = 2;
@@ -57,7 +61,7 @@ int FindValue(complex input){
 
 int** CalcJuliaSet(void) {
     int i,j;
-    int** outputTable;
+    static int outputTable[5][5];
     for(i=0;i<resY;i++){
         for(j=0;j<resX;j++){
             complex input = {i,j};
