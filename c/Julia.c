@@ -13,10 +13,10 @@ const minX = -2;
 const maxX = 2;
 const minY = -2;
 const maxY = 2;
-const resX = 10;
-const resY = 10;
+const resX = 3;
+const resY = 2;
 const maxIts = 100;
-const complex julC = {0,1};
+const complex julC = {-1,0};
 
 complex transform(int i, int j) {
     complex output;
@@ -44,7 +44,7 @@ complex iterate(complex input) {
 
 int findValue(int i, int j){
     complex point=transform(i,j);
-    int iterations=1;
+    int iterations=0;
     while( (! exceededMax(iterations)) && (! escaped(point))){
         iterate(point);
         iterations++;
@@ -55,18 +55,18 @@ int findValue(int i, int j){
 
 void calcJuliaSet(int *start) {
     int i,j;
-    for(i=0;i<(resX);i++){
-        for(j=0;j<(resY);j++){
-            *(start+(i*resX)+j)=findValue(i,j);
+    for(j=0;j<(resY);j++){
+        for(i=0;i<(resX);i++){
+            *(start+(j*resY)+i)=findValue(i,j);
         };
     };
 };
 
 void output(int* start){
     int i,j;
-    for(i=0;i<(resX);i++){
-        for(j=0;j<(resY);j++){
-            printf("%4d", *(start+(i*resX)+j));
+    for(j=0;j<(resY);j++){
+        for(i=0;i<(resX);i++){
+            printf("%4d", *(start+(j*resY)+i));
         };
     printf("\n");
     };
