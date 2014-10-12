@@ -20,8 +20,8 @@ const complex julC = {0,1};
 
 complex transform(int i, int j) {
     complex output;
-    output.x = 1/*calculate the algorithm what goes here*/;
-    output.y = 1/*here too*/;
+    output.x = minX+j*(maxX-minX)/resX;
+    output.y = maxY-i*(maxY-minY)/resY;
     return output;
 };
 
