@@ -18,7 +18,7 @@ const resY = 10;
 const maxIts = 100;
 const complex julC = {0,1};
 
-complex Transform(complex input) {
+complex Transform(int i,j) {
     complex output;
     output.x = 1/*calculate the algorithm what goes here*/;
     output.y = 1/*here too*/;
@@ -42,8 +42,8 @@ complex Iterate(complex input) {
     return output;
 };
 
-int FindValue(complex input){
-    complex point=Transform(input);
+int FindValue(int i,j){
+    complex point=Transform(i,j);
     int iterations=1;
     while( (! ExceededMax(iterations)) && (! Escaped(point))){
         Iterate(point);
@@ -53,25 +53,25 @@ int FindValue(complex input){
 };
 
 
-int** CalcJuliaSet(**table) {
+void CalcJuliaSet(int *start) {
     int i,j;
-    for(i=0;i<5;i++){
-        for(j=0;j<5;j++){
-            complex input = {i,j};
-            table[i][j]=3; //FindValue(input);
+    for(i=0;i<resX;i++){
+        for(j=0;j<resY;j++){
+           // complex input = {i,j};
+            start+(resX*i)+j=FindValue(i,j);
         };
      };
-    return outputTable;
+    return 0;
 };
 
-int output(int** input){
+void Output(int* input){
     ;
 };
 
-int main(void) {
-    int table[resX][resY];;
-    table = CalcJuliaSet(table);
-    output(table);
+int Main(void) {
+    int table[resX*resY];//allocates memory space for the table
+    CalcJuliaSet(&table);
+    Output(&table);
     return 0;
 }
 
