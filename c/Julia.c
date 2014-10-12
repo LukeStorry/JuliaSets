@@ -13,10 +13,10 @@ const minX = -2;
 const maxX = 2;
 const minY = -2;
 const maxY = 2;
-const resX = 10;
-const resY = 10;
-const maxIts = 100;
-const complex julC = {-1,0};
+const resX = 20;
+const resY = 20;
+const maxIts = 1000;
+const complex julC = {0,0};
 
 complex transform(int i, int j) {
     complex output;
@@ -26,25 +26,25 @@ complex transform(int i, int j) {
 };
 
 short exceededMax(int input){
-    if (input = maxIts) {return 1;}
+    if (input == maxIts) {return 1;}
         else {return 0;};
 };
 
 short escaped(complex input){
-    if (input.x>ESCX||input.y>ESCY) {return 1;}
+    if ( abs(input.x + julC.x) > 5 || abs(input.y + julC.y) > 5 ){return 1;}
         else {return 0;};
 };
 
 complex iterate(complex input) {
     complex output;
-    output.x=input.x*input.x-input.y*input.y +julC.x;
-    output.y=2*input.x*input.y +julC.y;
+    output.x = input.x*input.x-input.y*input.y +julC.x;
+    output.y = 2*input.x*input.y +julC.y;
     return output;
 };
 
 int findValue(int i, int j){
-    complex point=transform(i,j);
-    int iterations=0;
+    complex point = transform(i,j);
+    int iterations = 0;
     while( (! exceededMax(iterations)) && (! escaped(point))){
         iterate(point);
         iterations++;
@@ -55,17 +55,17 @@ int findValue(int i, int j){
 
 void calcJuliaSet(int *start) {
     int i,j;
-    for(j=0;j<(resY);j++){
-        for(i=0;i<(resX);i++){
-            *(start+(j*resY)+i)=findValue(i,j);
+    for(j=0 ; j<(resY) ; j++){
+        for(i=0 ; i<(resX) ; i++){
+            *(start+(j*resY)+i) = findValue(i,j);
         };
     };
 };
 
 void output(int* start){
     int i,j;
-    for(j=0;j<(resY);j++){
-        for(i=0;i<(resX);i++){
+    for(j=0 ; j<(resY) ; j++){
+        for(i=0 ; i<(resX) ; i++){
             printf("%4d", *(start+(j*resY)+i));
         };
     printf("\n");
