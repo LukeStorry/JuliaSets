@@ -13,8 +13,8 @@ const minX = -2;
 const maxX = 2;
 const minY = -2;
 const maxY = 2;
-const resX = 3;
-const resY = 2;
+const resX = 10;
+const resY = 10;
 const maxIts = 100;
 const complex julC = {-1,0};
 
@@ -26,7 +26,7 @@ complex transform(int i, int j) {
 };
 
 short exceededMax(int input){
-    if (input>maxIts) {return 1;}
+    if (input = maxIts) {return 1;}
         else {return 0;};
 };
 
