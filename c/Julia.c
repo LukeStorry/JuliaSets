@@ -21,18 +21,18 @@ void askForSettings(void){
     scanf("%f",&minX);
     printf("What would you like to be the right bound of the complex plane? (current value: %f)  "),maxX;
     scanf("%f",&maxX);
-    printf("What would you like to be the upper bound of the complex plane? (current value: %f)  "),maxY;
-    scanf("%f",&maxY);
     printf("What would you like to be the lower bound of the complex plane? (current value: %f)  "),minY;
     scanf("%f",&minY);
-    printf("How many pixels do you want in the x-direction? (current value: %f)  "),resX;
-    scanf("%f",&resX);
-    printf("How many pixels do you want in the y-direction? (current value: %f)  "),resX;
-    scanf("%f",&resY);
-    printf("At what maximum number of iterations should the loop stop? (current value: %f)  "),maxIts;
-    scanf("%f",&maxIts);
+    printf("What would you like to be the upper bound of the complex plane? (current value: %f)  "),maxY;
+    scanf("%f",&maxY);
+    printf("How many pixels do you want in the x-direction? (current value: %i)  "),resX;
+    scanf("%i",&resX);
+    printf("How many pixels do you want in the y-direction? (current value: %i)  "),resX;
+    scanf("%i",&resY);
+    printf("At what maximum number of iterations should the loop stop? (current value: %i)  "),maxIts;
+    scanf("%i",&maxIts);
     printf("What constant would you like for the Julia Function? (current value: %f + %fi)  "),julC.x,julC.y;
-   scanf("%f + %fi",&julC.x,&julC.y);
+    scanf("%f + %fi",&julC.x,&julC.y);
 };
 
 complex translate(long i, long j) {					//translates the (i,j) array coordinates into the required complex number
@@ -94,7 +94,9 @@ void output(long *start){						//this function outputs the table
 };
 
 int main(void) {							//main function. it all starts here.
-    askForSettings();
+    while(1){
+        askForSettings();
+    };
     long table[resX*resY];//allocates memory space for the table	//declare and allocates memory for the table
     plotJulia(table);							//populates the table
     output(table);							//prints the table
