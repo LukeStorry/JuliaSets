@@ -1,33 +1,33 @@
 #include<stdio.h>
 
 typedef struct {
-    float x;
-    float y;
+    double x;
+    double y;
 }complex;
 
 //These just some options,will ask for input in later versions of program.
-const minX = -2.01;
-const maxX = 2.001;
-const minY = -2.01;
-const maxY = 2.001;
-const resX = 10;
-const resY = 10;
-const maxIts = 999;
-const complex julC = {0,0};
+const double  minX = -2.01;
+const double  maxX = 2.001;
+const double  minY = -2.01;
+const double  maxY = 2.001;
+const long    resX = 10;
+const long    resY = 10;
+const double  maxIts = 999;
+const complex julC = {0.0,0.0};
 
-complex transform(int i, int j) {
+complex transform(long i, long j) {
     complex output;
     output.x = minX + i * (maxX - minX) / resX;
-    output.y = maxY - j * (maxY - minY) / resY; //The bug is in these transformations. Everything else is ok.
+    output.y = maxY - j * (maxY - minY) / resY; //These were integer divisions.
     return output;
 };
 
-short exceededMax(int input){
+char exceededMax(unsigned long input){
     if (input == maxIts) {return 1;}
         else {return 0;};
 };
 
-short escaped(complex point){
+char escaped(complex point){
     if (point.x>0 || point.y>0)//( abs(point.x + julC.x) > 5 ) || ( abs(point.y + julC.y) > 5 ) )
         {return 1;}
     else
@@ -41,9 +41,9 @@ complex iterate(complex input) {
     return output;
 };
 
-int findValue(int i, int j){
+long findValue(unsigned long i, unsigned long j){
     complex point = transform(i,j);
-    int iterations = 0;
+    unsigned long iterations = 0;
     while( ! exceededMax(iterations) && ! escaped(point) ) {
         iterate(point);
         iterations++;
@@ -51,27 +51,27 @@ int findValue(int i, int j){
     return iterations;
 };
 
-void plotJulia(int *start) {
-    int i,j;
+void plotJulia(long *start) {
+    unsigned long i,j;
     for(j=0 ; j<(resX) ; j++){
         for(i=0 ; i<(resY) ; i++){   
-             *(start+(i*resY)+j) = findValue(i,j);
+             *(start+(j*resX)+i) = findValue(i,j);
         };
     };
 };
 
-void output(int* start){
-    int i,j;
-    for(j=0 ; j<(resX) ; j++){
-        for(i=0 ; i<(resY) ; i++){
-            printf("(%3i %3i)   ",transform(i,j).x,transform(i,j).y);// *(start+(j*resY)+i));
+void output(long *start){
+    unsigned long i,j;
+    for(j=0 ; j<resX ; j++){
+        for(i=0 ; i<resY ; i++){
+            printf("(%3.1f,%3.1f)  ",transform(i,j).x,transform(i,j).y);// *(start+(j*resY)+i));
         };
     printf("\n");
     };
 };
 
 int main(void) {
-    int table[resX*resY];//allocates memory space for the table
+    long table[resX*resY];//allocates memory space for the table
     plotJulia(table);
     output(table);
     return 0;
