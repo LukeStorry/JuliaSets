@@ -32,8 +32,7 @@ void askForSettings(void){
     printf("At what maximum number of iterations should the loop stop? (current value: %f)  "),maxIts;
     scanf("%f",&maxIts);
     printf("What constant would you like for the Julia Function? (current value: %f + %fi)  "),julC.x,julC.y;
-    //scanf("%f + %fi",&julC.x,&julC.y);
-
+   scanf("%f + %fi",&julC.x,&julC.y);
 };
 
 complex translate(long i, long j) {					//translates the (i,j) array coordinates into the required complex number
