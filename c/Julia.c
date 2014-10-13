@@ -10,8 +10,8 @@ const minX = -2;
 const maxX = 2;
 const minY = -2;
 const maxY = 2;
-const resX = 5;
-const resY = 7;
+const resX = 10;
+const resY = 10;
 const maxIts = 999;
 const complex julC = {0,0};
 
@@ -28,8 +28,10 @@ short exceededMax(int input){
 };
 
 short escaped(complex point){
-    if ( ( abs(point.x + julC.x) > 5 ) || ( abs(point.y + julC.y) > 5 ) ){return 1;}
-        else {return 0;};
+    if (point.x>0 || point.y>0)//( abs(point.x + julC.x) > 5 ) || ( abs(point.y + julC.y) > 5 ) )
+        {return 1;}
+    else
+        {return 0;};
 };
 
 complex iterate(complex input) {
@@ -49,7 +51,7 @@ int findValue(int i, int j){
     return iterations;
 };
 
-void calcJuliaSet(int *start) {
+void plotJulia(int *start) {
     int i,j;
     for(j=0 ; j<(resY) ; j++){
         for(i=0 ; i<(resX) ; i++){   
@@ -62,7 +64,7 @@ void output(int* start){
     int i,j;
     for(j=0 ; j<(resY) ; j++){
         for(i=0 ; i<(resX) ; i++){
-            printf("%4d", *(start+(j*resY)+i));
+            printf("%2d %2d     ",transform(i,j).x,transform(i,j).y);// *(start+(j*resY)+i));
         };
     printf("\n");
     };
@@ -70,7 +72,7 @@ void output(int* start){
 
 int main(void) {
     int table[resX*resY];//allocates memory space for the table
-    calcJuliaSet(table);
+    plotJulia(table);
     output(table);
     return 0;
 }
