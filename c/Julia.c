@@ -6,14 +6,14 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
 }complex;								//name of the datatype: "complex"
 
 //These just some options,will ask for input in later versions of program.
-const double  minX = -2;
-const double  maxX = 2;
-const double  minY = -2;
-const double  maxY = 2;
-const long    resX = 60;
-const long    resY = 40;
+const double  minX = -1.2;
+const double  maxX = 1.2;
+const double  minY = -1.3;
+const double  maxY = 1.3;
+const long    resX = 75;
+const long    resY = 50;
 const double  maxIts = 98;
-const complex julC = {0,0};
+const complex julC = {0,-1};
 
 complex translate(long i, long j) {					//translates the (i,j) array coordinates into the required complex number
     complex output;							//declares variable is which to hold the output values
@@ -30,7 +30,7 @@ char exceededMax(unsigned long input){					//this function tests whether iterati
 };
 
 char escaped(complex point){						//This function tests for if the point has escaped and will not return
-    if ( point.x>1.5 || point.x < -1.5 || point.y > 1.5 || point.y < -1.5  )	//If the point is big,
+    if ( point.x>2 || point.x < -2 || point.y >2 || point.y < -2)	//If the point is big,
         {return 1;}							//then return true
     else								//else, when the point is small
         {return 0;};							//return false
