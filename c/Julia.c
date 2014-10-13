@@ -10,10 +10,10 @@ const double  minX = -2;
 const double  maxX = 2;
 const double  minY = -2;
 const double  maxY = 2;
-const long    resX = 10;
-const long    resY = 10;
-const double  maxIts = 999;
-const complex julC = {-1,0};
+const long    resX = 60;
+const long    resY = 40;
+const double  maxIts = 98;
+const complex julC = {0,0};
 
 complex translate(long i, long j) {					//translates the (i,j) array coordinates into the required complex number
     complex output;							//declares variable is which to hold the output values
@@ -23,7 +23,7 @@ complex translate(long i, long j) {					//translates the (i,j) array coordinates
 };
 
 char exceededMax(unsigned long input){					//this function tests whether iterations has hit the maximum allwed
-    if (input == maxIts)						//if the current number of iterations is the max allowed,
+    if (input > maxIts)							//if the current number of iterations is higher than the max allowed,
         {return 1;}							//then return true
    else									//otherwise, when the iterations have not yet reached maximum,
         {return 0;};							//return false
@@ -56,8 +56,8 @@ long findValue(unsigned long i, unsigned long j){			//this function find the val
 
 void plotJulia(long *start) {						//this function populates the table
     unsigned long i,j;							//declares column and row counters
-    for(j=0 ; j<(resX) ; j++){						//for every row,
-        for(i=0 ; i<(resY) ; i++){   					//for each cell,
+    for(j=0 ; j<(resY) ; j++){						//for every row,
+        for(i=0 ; i<(resX) ; i++){   					//for each cell,
              *(start+(j*resX)+i) = findValue(i,j);			//set that pointer's address to be the value of the iterations
         };
     };
@@ -65,9 +65,9 @@ void plotJulia(long *start) {						//this function populates the table
 
 void output(long *start){						//this function outputs the table
     unsigned long i,j;							//declares column and row counters;
-    for(j=0 ; j<resX ; j++){						//for each row,
-        for(i=0 ; i<resY ; i++){					//for each cell,
-            printf("%3i ", *(start+(j*resY)+i));			//print the respective value pointed to.
+    for(j=0 ; j<resY ; j++){						//for each row,
+        for(i=0 ; i<resX ; i++){					//for each cell,
+            printf("%2i", *(start+(j*resX)+i));				//print the respective value pointed to.
         };
     printf("\n");							//at the end of every row, start a new line.
     };
