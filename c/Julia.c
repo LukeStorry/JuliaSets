@@ -5,15 +5,36 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     double y;								//the imaginary cooefficient
 }complex;								//name of the datatype: "complex"
 
-//These just some options,will ask for input in later versions of program.
-const double  minX = -1.2;
-const double  maxX = 1.2;
-const double  minY = -1.3;
-const double  maxY = 1.3;
-const long    resX = 75;
-const long    resY = 50;
-const double  maxIts = 98;
-const complex julC = {0,-1};
+
+//default settings:
+    double  minX = -2;
+    double  maxX = 2;
+    double  minY = -4/3;
+    double  maxY = 4/3;
+    long    resX = 75;
+    long    resY = 50;
+    double  maxIts = 98;
+    complex julC = {-1,0};
+
+void askForSettings(void){
+    printf("What would you like to be the left bound of the complex plane? (current value: %f)  "),minX;
+    scanf("%f",&minX);
+    printf("What would you like to be the right bound of the complex plane? (current value: %f)  "),maxX;
+    scanf("%f",&maxX);
+    printf("What would you like to be the upper bound of the complex plane? (current value: %f)  "),maxY;
+    scanf("%f",&maxY);
+    printf("What would you like to be the lower bound of the complex plane? (current value: %f)  "),minY;
+    scanf("%f",&minY);
+    printf("How many pixels do you want in the x-direction? (current value: %f)  "),resX;
+    scanf("%f",&resX);
+    printf("How many pixels do you want in the y-direction? (current value: %f)  "),resX;
+    scanf("%f",&resY);
+    printf("At what maximum number of iterations should the loop stop? (current value: %f)  "),maxIts;
+    scanf("%f",&maxIts);
+    printf("What constant would you like for the Julia Function? (current value: %f + %fi)  "),julC.x,julC.y;
+    //scanf("%f + %fi",&julC.x,&julC.y);
+
+};
 
 complex translate(long i, long j) {					//translates the (i,j) array coordinates into the required complex number
     complex output;							//declares variable is which to hold the output values
@@ -74,6 +95,7 @@ void output(long *start){						//this function outputs the table
 };
 
 int main(void) {							//main function. it all starts here.
+    askForSettings();
     long table[resX*resY];//allocates memory space for the table	//declare and allocates memory for the table
     plotJulia(table);							//populates the table
     output(table);							//prints the table
