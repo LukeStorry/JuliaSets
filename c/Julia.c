@@ -6,10 +6,10 @@ typedef struct {
 }complex;
 
 //These just some options,will ask for input in later versions of program.
-const minX = -2;
-const maxX = 2;
-const minY = -2;
-const maxY = 2;
+const minX = -2.01;
+const maxX = 2.001;
+const minY = -2.01;
+const maxY = 2.001;
 const resX = 10;
 const resY = 10;
 const maxIts = 999;
@@ -18,7 +18,7 @@ const complex julC = {0,0};
 complex transform(int i, int j) {
     complex output;
     output.x = minX + i * (maxX - minX) / resX;
-    output.y = maxY - j * (maxY - minY) / resY;
+    output.y = maxY - j * (maxY - minY) / resY; //The bug is in these transformations. Everything else is ok.
     return output;
 };
 
@@ -53,18 +53,18 @@ int findValue(int i, int j){
 
 void plotJulia(int *start) {
     int i,j;
-    for(j=0 ; j<(resY) ; j++){
-        for(i=0 ; i<(resX) ; i++){   
-             *(start+(j*resY)+i) = findValue(i,j);
+    for(j=0 ; j<(resX) ; j++){
+        for(i=0 ; i<(resY) ; i++){   
+             *(start+(i*resY)+j) = findValue(i,j);
         };
     };
 };
 
 void output(int* start){
     int i,j;
-    for(j=0 ; j<(resY) ; j++){
-        for(i=0 ; i<(resX) ; i++){
-            printf("%2d %2d     ",transform(i,j).x,transform(i,j).y);// *(start+(j*resY)+i));
+    for(j=0 ; j<(resX) ; j++){
+        for(i=0 ; i<(resY) ; i++){
+            printf("(%3i %3i)   ",transform(i,j).x,transform(i,j).y);// *(start+(j*resY)+i));
         };
     printf("\n");
     };
