@@ -7,33 +7,34 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
 
 
 //default settings:
-    double  minX = -2;
-    double  maxX = 2;
-    double  minY = -4/3;
-    double  maxY = 4/3;
+    double  minX = -1.4;
+    double  maxX = 1.4;
+    double  minY = -1.3;
+    double  maxY = 1.3;
     long    resX = 75;
-    long    resY = 50;
+    long    resY = 55;	
     double  maxIts = 98;
-    complex julC = {-1,0};
+    complex julC = {0,-1};
 
 void askForSettings(void){
+    while(1) {
     printf("What would you like to be the left bound of the complex plane? (current value: %f)  "),minX;
-    scanf("%f",&minX);
+    scanf("%f",minX);
     printf("What would you like to be the right bound of the complex plane? (current value: %f)  "),maxX;
-    scanf("%f",&maxX);
+    scanf("%f",maxX);
     printf("What would you like to be the lower bound of the complex plane? (current value: %f)  "),minY;
-    scanf("%f",&minY);
+    scanf("%f",minY);
     printf("What would you like to be the upper bound of the complex plane? (current value: %f)  "),maxY;
-    scanf("%f",&maxY);
+    scanf("%f",maxY);
     printf("How many pixels do you want in the x-direction? (current value: %i)  "),resX;
-    scanf("%i",&resX);
+    scanf("%i",resX);
     printf("How many pixels do you want in the y-direction? (current value: %i)  "),resX;
-    scanf("%i",&resY);
+    scanf("%i",resY);
     printf("At what maximum number of iterations should the loop stop? (current value: %i)  "),maxIts;
     scanf("%i",&maxIts);
     printf("What constant would you like for the Julia Function? (current value: %f + %fi)  "),julC.x,julC.y;
-    scanf("%f + %fi",&julC.x,&julC.y);
-};
+    scanf("%f + %fi",julC.x,julC.y);
+};};
 
 complex translate(long i, long j) {					//translates the (i,j) array coordinates into the required complex number
     complex output;							//declares variable is which to hold the output values
@@ -94,9 +95,9 @@ void output(long *start){						//this function outputs the table
 };
 
 int main(void) {							//main function. it all starts here.
-    while(1){
+    //while(0){
         askForSettings();
-    };
+    //};
     long table[resX*resY];//allocates memory space for the table	//declare and allocates memory for the table
     plotJulia(table);							//populates the table
     output(table);							//prints the table
