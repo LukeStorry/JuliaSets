@@ -16,34 +16,28 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     double  maxIts = 98;
     complex julC = {0,-1};
 
-void askForSettings(void){
-    while(1) {
-    printf("What would you like to be the left bound of the complex plane? (current value: %f)  "),minX;
-    scanf("%f",minX);
-    printf("What would you like to be the right bound of the complex plane? (current value: %f)  "),maxX;
-    scanf("%f",maxX);
-    printf("What would you like to be the lower bound of the complex plane? (current value: %f)  "),minY;
-    scanf("%f",minY);
-    printf("What would you like to be the upper bound of the complex plane? (current value: %f)  "),maxY;
-    scanf("%f",maxY);
-    printf("How many pixels do you want in the x-direction? (current value: %i)  "),resX;
-    scanf("%i",resX);
-    printf("How many pixels do you want in the y-direction? (current value: %i)  "),resX;
-    scanf("%i",resY);
-    printf("At what maximum number of iterations should the loop stop? (current value: %i)  "),maxIts;
-    scanf("%i",&maxIts);
-    printf("What constant would you like for the Julia Function? (current value: %f + %fi)  "),julC.x,julC.y;
-    scanf("%f + %fi",julC.x,julC.y);
-};};
+void fixSettings(char** argv)
+{    //need to convert from strings
+    minX = ;
+    maxX = ;
+    minY = ;
+    maxY = ;
+    resX = ;
+    resY = ;	
+    maxIts = ;
+    julC = ;
+};
 
-complex translate(long i, long j) {					//translates the (i,j) array coordinates into the required complex number
+complex translate(long i, long j)
+{					//translates the (i,j) array coordinates into the required complex number
     complex output;							//declares variable is which to hold the output values
     output.x = minX + i * (maxX - minX) / resX;				//calculates the x value of the complex number that corresponds to that array cell
     output.y = maxY - j * (maxY - minY) / resY;				//calculates the y value of the complex number that corresponds to that array cell
     return output;
 };
 
-char exceededMax(unsigned long input){					//this function tests whether iterations has hit the maximum allwed
+char exceededMax(unsigned long input)
+{					//this function tests whether iterations has hit the maximum allwed
     if (input > maxIts)							//if the current number of iterations is higher than the max allowed,
         {return 1;}							//then return true
    else									//otherwise, when the iterations have not yet reached maximum,
@@ -94,12 +88,10 @@ void output(long *start){						//this function outputs the table
     };
 };
 
-int main(void) {							//main function. it all starts here.
-    //while(0){
-        askForSettings();
-    //};
+int main(int argc, char** argv)						//main function. it all starts here.
+    fixSettings(argv);
     long table[resX*resY];//allocates memory space for the table	//declare and allocates memory for the table
     plotJulia(table);							//populates the table
-    output(table);							//prints the table
+    output(table); //add in uncode squares functionality		//prints the table
     return 0;
 }
