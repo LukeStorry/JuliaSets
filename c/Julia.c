@@ -1,5 +1,7 @@
 #include<stdio.h>
 
+#define NOOFSETTINGS 9
+
 typedef struct {							//defined a new datatype to ease the handling of complex numbers.
     double x;								//the real cooeficient of the complex number
     double y;								//the imaginary cooefficient
@@ -16,9 +18,10 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     double  maxIts = 98;
     complex julC = {0,-1};
 
+
 void fixSettings(char** argv)
 {    //need to convert from strings
-    minX = ;
+    minX = atof(&(char));
     maxX = ;
     minY = ;
     maxY = ;
@@ -44,21 +47,24 @@ char exceededMax(unsigned long input)
         {return 0;};							//return false
 };
 
-char escaped(complex point){						//This function tests for if the point has escaped and will not return
+char escaped(complex point)						//This function tests for if the point has escaped and will not return
+{
     if ( point.x>2 || point.x < -2 || point.y >2 || point.y < -2)	//If the point is big,
         {return 1;}							//then return true
     else								//else, when the point is small
         {return 0;};							//return false
 };
 
-complex iterate(complex input) {					//This function performs a function upon the complex number
+complex iterate(complex input)						//This function performs a function upon the complex number
+{
     complex output;							//declares variable in which to store the output complex number
     output.x = input.x * input.x - input.y * input.y + julC.x;		//calculates the new complex number's x value (z^2+C)
     output.y = 2 * input.x * input.y + julC.y;				//calculates the new complex number's x value (z^2+C)
     return output;							//returns the iterated complex number
 };
 
-long findValue(unsigned long i, unsigned long j){			//this function find the value with which to populate each cell
+long findValue(unsigned long i, unsigned long j)			//this function find the value with which to populate each cell
+{
     complex point = translate(i,j);					//translates the (i,j) array coordinates into a (x,y) complex number
     unsigned long iterations = 0;					//declares the iteration counter
     while( ! exceededMax(iterations) && ! escaped(point) ) {		//while the point hasn't escaped, or iterations almost hit infinity
@@ -69,7 +75,8 @@ long findValue(unsigned long i, unsigned long j){			//this function find the val
     return iterations;							//return the number of iterations that it took for the complex to explode
 };
 
-void plotJulia(long *start) {						//this function populates the table
+void plotJulia(long *start) 						//this function populates the table
+{
     unsigned long i,j;							//declares column and row counters
     for(j=0 ; j<(resY) ; j++){						//for every row,
         for(i=0 ; i<(resX) ; i++){   					//for each cell,
@@ -78,7 +85,8 @@ void plotJulia(long *start) {						//this function populates the table
     };
 };
 
-void output(long *start){						//this function outputs the table
+void output(long *start)						//this function outputs the table
+{
     unsigned long i,j;							//declares column and row counters;
     for(j=0 ; j<resY ; j++){						//for each row,
         for(i=0 ; i<resX ; i++){					//for each cell,
@@ -89,9 +97,15 @@ void output(long *start){						//this function outputs the table
 };
 
 int main(int argc, char** argv)						//main function. it all starts here.
-    fixSettings(argv);
-    long table[resX*resY];//allocates memory space for the table	//declare and allocates memory for the table
-    plotJulia(table);							//populates the table
-    output(table); //add in uncode squares functionality		//prints the table
-    return 0;
-}
+{
+    //if (argc == NOOFSETTINGS) {
+        fixSettings(argv);
+	long table[resX*resY];						//declare and allocates memory for the table
+	plotJulia(table);							//populates the table
+	output(table);		//add in uncode squares functionality		//prints the table
+	return 0;
+    /*} else {
+     *	printf("Incorrect Parameters\n")
+     *	printf("They should be: minX maxX minY maxY resX resY maxIts julC.x julC.y \n")
+   };*/
+};
