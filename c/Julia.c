@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h> 
+
 #define NOOFSETTINGS 9
 
 typedef struct {							//defined a new datatype to ease the handling of complex numbers.
@@ -9,32 +10,34 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
 
 
 //default settings:
-    double  minX = -1.4;
-    double  maxX = 1.4;
-    double  minY = -1.3;
-    double  maxY = 1.3;
+    double  minX = -1.8;
+    double  maxX = 1.8;
+    double  minY = -1.2;
+    double  maxY = 1.2;
     long    resX = 75;
-    long    resY = 55;	
+    long    resY = 50;
     double  maxIts = 98;
-    complex julC = {0,-1};
+    complex julC = {-1,0};
 
 
 int fixSettings(int argc, char** argv)
 {
-    //printf("%s %s",*argv, *(argv+1));
-    //printf("%d \n \n ",argc);
-    if (argc != (NOOFSETTINGS+1)){
-	return 0;};
-    minX = atof(argv[1]);
-    maxX = atof(argv[2]);
-    minY = atof(argv[3]);
-    maxY = atof(argv[4]);
-    resX = atof(argv[5]);
-    resY = atof(argv[6]);	
-    maxIts = atof(argv[7]);
-    julC.y = atof(argv[8]);
-    julC.x = atof(argv[9]);
-    return 1;
+    if (argc = 1) {				    //If not extra parameters,
+	return 1;				    //just leave the default values
+    } else if (argc != (NOOFSETTINGS+1)){	    //if some parameters but not enough,
+	return 0;				    //fail
+    } else {					    //otherwise, if there are enough parameters,
+	minX = atof(argv[1]);			    //set the globals from the parameters
+	maxX = atof(argv[2]);
+	minY = atof(argv[3]);
+	maxY = atof(argv[4]);
+	resX = atof(argv[5]);
+	resY = atof(argv[6]);	
+	maxIts = atof(argv[7]);
+	julC.y = atof(argv[8]);
+	julC.x = atof(argv[9]);
+	return 1;
+    };
 };
 
 complex translate(long i, long j)
@@ -76,7 +79,6 @@ long findValue(unsigned long i, unsigned long j)			//this function find the valu
     while( ! exceededMax(iterations) && ! escaped(point) ) {		//while the point hasn't escaped, or iterations almost hit infinity
         point = iterate(point);						//perform the function on the point
         iterations++;							//increment the diagnostics counter
-       // printf("%2i:(%3.2f , %3.2f)    ",iterations, point.x,point.y);//diagnostics
     };
     return iterations;							//return the number of iterations that it took for the complex to explode
 };
@@ -106,9 +108,8 @@ int main(int argc, char** argv)						//main function. it all starts here.
 {
     if (fixSettings(argc,argv)==1){
 	long table[resX*resY];						//declare and allocates memory for the table
-	plotJulia(table);							//populates the table
-	//output(table);		//add in uncode squares functionality		//prints the table
-	printf("%f %f %f \n",minX,maxX, resX);
+	plotJulia(table);						//populates the table
+	output(table);							//prints the table
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
