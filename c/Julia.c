@@ -52,19 +52,21 @@ complex translate(long i, long j)
 
 char exceededMax(unsigned long input)
 {					//this function tests whether iterations has hit the maximum allwed
-    if (input > maxIts)							//if the current number of iterations is higher than the max allowed,
-        {return 1;}							//then return true
-   else									//otherwise, when the iterations have not yet reached maximum,
-        {return 0;};							//return false
+    if (input > maxIts) {						//if the current number of iterations is higher than the max allowed,
+        return 1;							//then return true
+    } else {								//otherwise, when the iterations have not yet reached maximum,
+        return 0;							//return false
+    };
 };
 
 
 char escaped(complex point)						//This function tests for if the point has escaped and will not return
 {
-    if ( point.x>2 || point.x < -2 || point.y >2 || point.y < -2)	//If the point is big,
-        {return 1;}							//then return true
-    else								//else, when the point is small
-        {return 0;};							//return false
+    if ( (abs(point.x + julC.x) > 1.1) || (abs(point.y + julC.y) >1.1)){	//If the point is big,
+        return 1;							//then return true
+    } else {								//else, when the point is small
+        return 0;							//return false
+    };
 };
 
 
