@@ -1,5 +1,5 @@
-#include<stdio.h>
-
+#include <stdio.h>
+#include <stdlib.h> 
 #define NOOFSETTINGS 9
 
 typedef struct {							//defined a new datatype to ease the handling of complex numbers.
@@ -19,16 +19,22 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     complex julC = {0,-1};
 
 
-void fixSettings(char** argv)
-{    //need to convert from strings
-    minX = atof(&(char));
-    maxX = ;
-    minY = ;
-    maxY = ;
-    resX = ;
-    resY = ;	
-    maxIts = ;
-    julC = ;
+int fixSettings(int argc, char** argv)
+{
+    //printf("%s %s",*argv, *(argv+1));
+    //printf("%d \n \n ",argc);
+    if (argc != (NOOFSETTINGS+1)){
+	return 0;};
+    minX = atof(argv[1]);
+    maxX = atof(argv[2]);
+    minY = atof(argv[3]);
+    maxY = atof(argv[4]);
+    resX = atof(argv[5]);
+    resY = atof(argv[6]);	
+    maxIts = atof(argv[7]);
+    julC.y = atof(argv[8]);
+    julC.x = atof(argv[9]);
+    return 1;
 };
 
 complex translate(long i, long j)
@@ -98,14 +104,15 @@ void output(long *start)						//this function outputs the table
 
 int main(int argc, char** argv)						//main function. it all starts here.
 {
-    //if (argc == NOOFSETTINGS) {
-        fixSettings(argv);
+    if (fixSettings(argc,argv)==1){
 	long table[resX*resY];						//declare and allocates memory for the table
 	plotJulia(table);							//populates the table
-	output(table);		//add in uncode squares functionality		//prints the table
+	//output(table);		//add in uncode squares functionality		//prints the table
+	printf("%f %f %f \n",minX,maxX, resX);
 	return 0;
-    /*} else {
-     *	printf("Incorrect Parameters\n")
-     *	printf("They should be: minX maxX minY maxY resX resY maxIts julC.x julC.y \n")
-   };*/
+    } else {
+	printf("Incorrect Parameters\n");
+     	printf("They should be: minX maxX minY maxY resX resY maxIts julC.x julC.y \n");
+        return ;
+    };
 };
