@@ -22,7 +22,7 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
 
 int fixSettings(int argc, char** argv)
 {
-    if (argc = 1) {				    //If not extra parameters,
+    if (argc == 1) {				    //If not extra parameters,
 	return 1;				    //just leave the default values
     } else if (argc != (NOOFSETTINGS+1)){	    //if some parameters but not enough,
 	return 0;				    //fail
@@ -40,6 +40,7 @@ int fixSettings(int argc, char** argv)
     };
 };
 
+
 complex translate(long i, long j)
 {					//translates the (i,j) array coordinates into the required complex number
     complex output;							//declares variable is which to hold the output values
@@ -47,6 +48,7 @@ complex translate(long i, long j)
     output.y = maxY - j * (maxY - minY) / resY;				//calculates the y value of the complex number that corresponds to that array cell
     return output;
 };
+
 
 char exceededMax(unsigned long input)
 {					//this function tests whether iterations has hit the maximum allwed
@@ -56,6 +58,7 @@ char exceededMax(unsigned long input)
         {return 0;};							//return false
 };
 
+
 char escaped(complex point)						//This function tests for if the point has escaped and will not return
 {
     if ( point.x>2 || point.x < -2 || point.y >2 || point.y < -2)	//If the point is big,
@@ -64,6 +67,7 @@ char escaped(complex point)						//This function tests for if the point has esca
         {return 0;};							//return false
 };
 
+
 complex iterate(complex input)						//This function performs a function upon the complex number
 {
     complex output;							//declares variable in which to store the output complex number
@@ -71,6 +75,7 @@ complex iterate(complex input)						//This function performs a function upon the
     output.y = 2 * input.x * input.y + julC.y;				//calculates the new complex number's x value (z^2+C)
     return output;							//returns the iterated complex number
 };
+
 
 long findValue(unsigned long i, unsigned long j)			//this function find the value with which to populate each cell
 {
@@ -83,6 +88,7 @@ long findValue(unsigned long i, unsigned long j)			//this function find the valu
     return iterations;							//return the number of iterations that it took for the complex to explode
 };
 
+
 void plotJulia(long *start) 						//this function populates the table
 {
     unsigned long i,j;							//declares column and row counters
@@ -92,6 +98,7 @@ void plotJulia(long *start) 						//this function populates the table
         };
     };
 };
+
 
 void output(long *start)						//this function outputs the table
 {
@@ -103,6 +110,7 @@ void output(long *start)						//this function outputs the table
     printf("\n");							//at the end of every row, start a new line.
     };
 };
+
 
 int main(int argc, char** argv)						//main function. it all starts here.
 {
