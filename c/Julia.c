@@ -1,4 +1,3 @@
-#include "qdbmp.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -17,7 +16,7 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     double  maxY = 1.3;
     long    resX = 1280;
     long    resY = 1024;
-    double  maxIts = 255;
+    unsigned char  maxIts = 255;
     complex julC = {-1,0};
 
 
@@ -49,7 +48,7 @@ complex translate(long i, long j) {					//translates the (i,j) array coordinates
 };
 
 
-char exceededMax(unsigned long input) {					//this function tests whether iterations has hit the maximum allwed
+char exceededMax(unsigned char input) {					//this function tests whether iterations has hit the maximum allwed
     if (input > maxIts) {						//if the current number of iterations is higher than the max allowed,
         return 1;							//then return true
     } else {								//otherwise, when the iterations have not yet reached maximum,
@@ -77,7 +76,7 @@ complex iterate(complex input) {    					//This function performs a function upo
 
 long findValue(unsigned long i, unsigned long j) {			//this function find the value with which to populate each cell
     complex point = translate(i,j);					//translates the (i,j) array coordinates into a (x,y) complex number
-    unsigned long iterations = 0;					//declares the iteration counter
+    unsigned char iterations = 0;					//declares the iteration counter
     while( ! exceededMax(iterations) && ! escaped(point) ) {		//while the point hasn't escaped, or iterations almost hit infinity
         point = iterate(point);						//perform the function on the point
         iterations++;							//increment the diagnostics counter
@@ -85,21 +84,31 @@ long findValue(unsigned long i, unsigned long j) {			//this function find the va
     return iterations;							//return the number of iterations that it took for the complex to explode
 };
 
-void createBMP(void) {
-    unsigned int i, j;
-    BMP* bmp = BMP_Create(resX,resY,8);
-    for(j=0 ; j<resY ; j++){						//for each row,
-        for(i=0 ; i<resX ; i++){					//for each cell,
-            BMP_SetPixelRGB(bmp,i,j,100,160, findValue(i,j));
+
+void plotJulia(unsigned char *start){  						//this function populates the table
+    unsigned long i,j;							//declares column and row counters
+    for(j=0 ; j<(resY) ; j++){						//for every row,
+        for(i=0 ; i<(resX) ; i++){   					//for each cell,
+             *(start+(j*resX)+i) = findValue(i,j);			//set that pointer's address to be the value of the iterations
         };
     };
-    BMP_WriteFile(bmp,"output.bmp");
-    BMP_Free(bmp);
+};
+
+
+void createPGM(unsigned char *table) {
+    FILE* image = fopen("output.pgn","wb");
+    unsigned int i, j;
+    fprintf(image,"P5\n%u %u 255\n", resX, resY);
+    fwrite(table, 1, resX*resY*sizeof(unsigned char), image);
+    fclose(image);
 };
 
 int main(int argc, char** argv) {					//main function. it all starts here.
-    if (fixSettings(argc,argv)==1) {
-	createBMP();							//prints the table
+    if (fixSettings(argc,argv)==1){
+	unsigned char table[resX*resY];						//declare and allocates memory for the table
+	plotJulia(table);						//populates the table
+	createPGM(table);							//prints the table
+	free(table);
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
