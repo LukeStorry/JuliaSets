@@ -14,8 +14,8 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     double  maxX = 1.8;
     double  minY = -1.3;
     double  maxY = 1.3;
-    long    resX = 1280;
-    long    resY = 1024;
+    long    resX = 10;
+    long    resY = 104;
     unsigned char  maxIts = 255;
     complex julC = {-1,0};
 
@@ -97,8 +97,8 @@ void plotJulia(unsigned char *start){  						//this function populates the table
 
 void createPGM(unsigned char *table) {
     FILE* image = fopen("output.pgn","wb");
-    unsigned int i, j;
     fprintf(image,"P5\n%u %u 255\n", resX, resY);
+    printf("%c %c %c\n", table[4], table[6], table[984]);
     fwrite(table, 1, resX*resY*sizeof(unsigned char), image);
     fclose(image);
 };
@@ -108,7 +108,6 @@ int main(int argc, char** argv) {					//main function. it all starts here.
 	unsigned char table[resX*resY];						//declare and allocates memory for the table
 	plotJulia(table);						//populates the table
 	createPGM(table);							//prints the table
-	free(table);
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
