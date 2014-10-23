@@ -14,10 +14,10 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     double  maxX = 2;
     double  minY = -2;
     double  maxY = 2;
-    long    resX = 100;
+    long    resX = 140;
     long    resY = 50;
-    double  maxIts = 10000;
-    complex julC = {0,0};
+    double  maxIts = 98;
+    complex julC = {-1,0};
 
 
 int fixSettings(int argc, char** argv) {
@@ -33,8 +33,8 @@ int fixSettings(int argc, char** argv) {
 	resX = atof(argv[5]);
 	resY = atof(argv[6]);	
 	maxIts = atof(argv[7]);
-	julC.y = atof(argv[8]);
-	julC.x = atof(argv[9]);
+	julC.x = atof(argv[8]);
+	julC.y = atof(argv[9]);
 	return 1;
     };
 };
@@ -58,7 +58,7 @@ char exceededMax(unsigned long input) {					//this function tests whether iterat
 
 
 char escaped(complex point) {					//This function tests for if the point has escaped and will not return
-    if ( (abs(point.x + julC.x) > 1.1) || (abs(point.y + julC.y) >1.1)){	//If the point is big,
+    if ( (abs(point.x + julC.x) > 5) || (abs(point.y + julC.y) > 5)){	//If the point is big,
         return 1;							//then return true
     } else {								//else, when the point is small
         return 0;							//return false
@@ -96,13 +96,15 @@ void plotJulia(long *start){  						//this function populates the table
 
 void printSymbol(long n) {						// Finds ASCII character for 
     if (n == maxIts){
+	printf("\u2588");
+    } else if (n > maxIts/15) {
 	printf("\u2593");
-    } else if (n > maxIts/2) {
-	printf("\u2592");;
-    } else if (n > maxIts/10){
-	printf("\u2591"); ;
+    } else if (n > maxIts/30){
+	printf("\u2592");
+    } else if (n > maxIts/60) {
+	printf("\u2591");
     } else {
-	printf(" ");;
+	printf(" ");
     };
 };
 
