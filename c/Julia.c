@@ -101,7 +101,7 @@ void createBMP(long *start) {
     BMP* bmp = BMP_Create(resX,resY,8);
     for(j=0 ; j<resY ; j++){						//for each row,
         for(i=0 ; i<resX ; i++){					//for each cell,
-            BMP_SetPixelRGB(bmp,i,j,50,60,*(start+(j*resX)+i));				//print the symbol that fits that number of iterations
+            BMP_SetPixelRGB(bmp,i,j,100,160,*(start+(j*resX)+i));				//print the symbol that fits that number of iterations
         };
     };
     BMP_WriteFile(bmp,"output.bmp");
