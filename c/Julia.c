@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h> 
 #include "qdbmp.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define NOOFSETTINGS 9
 
@@ -105,14 +105,14 @@ void createBMP(long *start) {
         };
     };
     BMP_WriteFile(bmp,"output.bmp");
-    BMP_Destroy(bmp);
+    BMP_Free(bmp);
 };
 
 int main(int argc, char** argv) {					//main function. it all starts here.
     if (fixSettings(argc,argv)==1){
 	long table[resX*resY];						//declare and allocates memory for the table
 	plotJulia(table);						//populates the table
-	output(table);							//prints the table
+	createBMP(table);							//prints the table
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
