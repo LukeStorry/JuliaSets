@@ -11,13 +11,13 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
 
 
 //default settings:
-    double  minX = -2;
-    double  maxX = 2;
-    double  minY = -2;
-    double  maxY = 2;
-    long    resX = 140;
-    long    resY = 50;
-    double  maxIts = 98;
+    double  minX = -1.8;
+    double  maxX = 1.8;
+    double  minY = -1.3;
+    double  maxY = 1.3;
+    long    resX = 1280;
+    long    resY = 1024;
+    double  maxIts = 255;
     complex julC = {-1,0};
 
 
@@ -95,30 +95,18 @@ void plotJulia(long *start){  						//this function populates the table
     };
 };
 
-void printSymbol(long n) {						// Finds ASCII character for 
-    if (n == maxIts){
-	printf("\u2588");
-    } else if (n > maxIts/15) {
-	printf("\u2593");
-    } else if (n > maxIts/30){
-	printf("\u2592");
-    } else if (n > maxIts/60) {
-	printf("\u2591");
-    } else {
-	printf(" ");
-    };
-};
 
-void output(long *start) {						//this function outputs the table
-    unsigned long i,j;							//declares column and row counters;
+void createBMP(long *start) {
+    unsigned int i, j;
+    BMP* bmp = BMP_Create(resX,resY,8);
     for(j=0 ; j<resY ; j++){						//for each row,
         for(i=0 ; i<resX ; i++){					//for each cell,
-            printSymbol(*(start+(j*resX)+i));				//print the symbol that fits that number of iterations
+            BMP_SetPixelRGB(bmp,i,j,50,60,*(start+(j*resX)+i));				//print the symbol that fits that number of iterations
         };
-    printf("\n");							//at the end of every row, start a new line.
     };
+    BMP_WriteFile(bmp,"output.bmp");
+    BMP_Destroy(bmp);
 };
-
 
 int main(int argc, char** argv) {					//main function. it all starts here.
     if (fixSettings(argc,argv)==1){
