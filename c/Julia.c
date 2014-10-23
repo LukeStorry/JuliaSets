@@ -10,18 +10,17 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
 
 
 //default settings:
-    double  minX = -1.8;
-    double  maxX = 1.8;
-    double  minY = -1.2;
-    double  maxY = 1.2;
-    long    resX = 75;
+    double  minX = -2;
+    double  maxX = 2;
+    double  minY = -2;
+    double  maxY = 2;
+    long    resX = 100;
     long    resY = 50;
-    double  maxIts = 98;
-    complex julC = {-1,0};
+    double  maxIts = 10000;
+    complex julC = {0,0};
 
 
-int fixSettings(int argc, char** argv)
-{
+int fixSettings(int argc, char** argv) {
     if (argc == 1) {				    //If not extra parameters,
 	return 1;				    //just leave the default values
     } else if (argc != (NOOFSETTINGS+1)){	    //if some parameters but not enough,
@@ -41,8 +40,7 @@ int fixSettings(int argc, char** argv)
 };
 
 
-complex translate(long i, long j)
-{					//translates the (i,j) array coordinates into the required complex number
+complex translate(long i, long j) {					//translates the (i,j) array coordinates into the required complex number
     complex output;							//declares variable is which to hold the output values
     output.x = minX + i * (maxX - minX) / resX;				//calculates the x value of the complex number that corresponds to that array cell
     output.y = maxY - j * (maxY - minY) / resY;				//calculates the y value of the complex number that corresponds to that array cell
@@ -50,8 +48,7 @@ complex translate(long i, long j)
 };
 
 
-char exceededMax(unsigned long input)
-{					//this function tests whether iterations has hit the maximum allwed
+char exceededMax(unsigned long input) {					//this function tests whether iterations has hit the maximum allwed
     if (input > maxIts) {						//if the current number of iterations is higher than the max allowed,
         return 1;							//then return true
     } else {								//otherwise, when the iterations have not yet reached maximum,
@@ -60,8 +57,7 @@ char exceededMax(unsigned long input)
 };
 
 
-char escaped(complex point)						//This function tests for if the point has escaped and will not return
-{
+char escaped(complex point) {					//This function tests for if the point has escaped and will not return
     if ( (abs(point.x + julC.x) > 1.1) || (abs(point.y + julC.y) >1.1)){	//If the point is big,
         return 1;							//then return true
     } else {								//else, when the point is small
@@ -70,8 +66,7 @@ char escaped(complex point)						//This function tests for if the point has esca
 };
 
 
-complex iterate(complex input)						//This function performs a function upon the complex number
-{
+complex iterate(complex input) {    					//This function performs a function upon the complex number
     complex output;							//declares variable in which to store the output complex number
     output.x = input.x * input.x - input.y * input.y + julC.x;		//calculates the new complex number's x value (z^2+C)
     output.y = 2 * input.x * input.y + julC.y;				//calculates the new complex number's x value (z^2+C)
@@ -79,8 +74,7 @@ complex iterate(complex input)						//This function performs a function upon the
 };
 
 
-long findValue(unsigned long i, unsigned long j)			//this function find the value with which to populate each cell
-{
+long findValue(unsigned long i, unsigned long j) {			//this function find the value with which to populate each cell
     complex point = translate(i,j);					//translates the (i,j) array coordinates into a (x,y) complex number
     unsigned long iterations = 0;					//declares the iteration counter
     while( ! exceededMax(iterations) && ! escaped(point) ) {		//while the point hasn't escaped, or iterations almost hit infinity
@@ -91,8 +85,7 @@ long findValue(unsigned long i, unsigned long j)			//this function find the valu
 };
 
 
-void plotJulia(long *start) 						//this function populates the table
-{
+void plotJulia(long *start){  						//this function populates the table
     unsigned long i,j;							//declares column and row counters
     for(j=0 ; j<(resY) ; j++){						//for every row,
         for(i=0 ; i<(resX) ; i++){   					//for each cell,
@@ -101,21 +94,30 @@ void plotJulia(long *start) 						//this function populates the table
     };
 };
 
+void printSymbol(long n) {						// Finds ASCII character for 
+    if (n == maxIts){
+	printf("\u2593");
+    } else if (n > maxIts/2) {
+	printf("\u2592");;
+    } else if (n > maxIts/10){
+	printf("\u2591"); ;
+    } else {
+	printf(" ");;
+    };
+};
 
-void output(long *start)						//this function outputs the table
-{
+void output(long *start) {						//this function outputs the table
     unsigned long i,j;							//declares column and row counters;
     for(j=0 ; j<resY ; j++){						//for each row,
         for(i=0 ; i<resX ; i++){					//for each cell,
-            printf("%2i", *(start+(j*resX)+i));				//print the respective value pointed to.
+            printSymbol(*(start+(j*resX)+i));				//print the symbol that fits that number of iterations
         };
     printf("\n");							//at the end of every row, start a new line.
     };
 };
 
 
-int main(int argc, char** argv)						//main function. it all starts here.
-{
+int main(int argc, char** argv) {					//main function. it all starts here.
     if (fixSettings(argc,argv)==1){
 	long table[resX*resY];						//declare and allocates memory for the table
 	plotJulia(table);						//populates the table
@@ -124,6 +126,6 @@ int main(int argc, char** argv)						//main function. it all starts here.
     } else {
 	printf("Incorrect Parameters\n");
      	printf("They should be: minX maxX minY maxY resX resY maxIts julC.x julC.y \n");
-        return ;
+        return 1;
     };
 };
