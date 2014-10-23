@@ -85,23 +85,12 @@ long findValue(unsigned long i, unsigned long j) {			//this function find the va
     return iterations;							//return the number of iterations that it took for the complex to explode
 };
 
-
-void plotJulia(long *start){  						//this function populates the table
-    unsigned long i,j;							//declares column and row counters
-    for(j=0 ; j<(resY) ; j++){						//for every row,
-        for(i=0 ; i<(resX) ; i++){   					//for each cell,
-             *(start+(j*resX)+i) = findValue(i,j);			//set that pointer's address to be the value of the iterations
-        };
-    };
-};
-
-
-void createBMP(long *start) {
+void createBMP(void) {
     unsigned int i, j;
     BMP* bmp = BMP_Create(resX,resY,8);
     for(j=0 ; j<resY ; j++){						//for each row,
         for(i=0 ; i<resX ; i++){					//for each cell,
-            BMP_SetPixelRGB(bmp,i,j,100,160,*(start+(j*resX)+i));				//print the symbol that fits that number of iterations
+            BMP_SetPixelRGB(bmp,i,j,100,160, findValue(i,j));
         };
     };
     BMP_WriteFile(bmp,"output.bmp");
@@ -109,10 +98,8 @@ void createBMP(long *start) {
 };
 
 int main(int argc, char** argv) {					//main function. it all starts here.
-    if (fixSettings(argc,argv)==1){
-	long table[resX*resY];						//declare and allocates memory for the table
-	plotJulia(table);						//populates the table
-	createBMP(table);							//prints the table
+    if (fixSettings(argc,argv)==1) {
+	createBMP();							//prints the table
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
