@@ -106,6 +106,7 @@ void createPGM(unsigned char *table) {
     return ;
 };
 
+
 int main(int argc, char** argv) {					//main function. it all starts here.
     	printf("test1");
 	
@@ -115,7 +116,7 @@ int main(int argc, char** argv) {					//main function. it all starts here.
 	printf("test3");
         plotJulia(table);						//populates the table
 	printf("test4");
-       	createPGM(table);							//prints the table
+      	createPGM(table);							//prints the table
 	printf("test5");     
 	return 0;
     } else {
