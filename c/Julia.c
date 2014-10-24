@@ -81,7 +81,7 @@ long findValue(unsigned long i, unsigned long j) {			//this function find the va
         point = iterate(point);						//perform the function on the point
         iterations++;							//increment the diagnostics counter
     };
-    return iterations;							//return the number of iterations that it took for the complex to explode
+    return iterations;					//return the number of iterations that it took for the complex to explode
 };
 
 
@@ -92,22 +92,31 @@ void plotJulia(unsigned char *start){  						//this function populates the table
              *(start+(j*resX)+i) = findValue(i,j);			//set that pointer's address to be the value of the iterations
         };
     };
+    return ; 
 };
 
 
 void createPGM(unsigned char *table) {
+    printf("testa");
     FILE* image = fopen("output.pgn","wb");
-    fprintf(image,"P5\n%u %u 255\n", resX, resY);
+    fprintf(image,"P5\n%d  %d\n%d\n", resX, resY,255);
     printf("%c %c %c\n", table[4], table[6], table[984]);
     fwrite(table, 1, resX*resY*sizeof(unsigned char), image);
     fclose(image);
+    return ;
 };
 
 int main(int argc, char** argv) {					//main function. it all starts here.
+    	printf("test1");
+	
     if (fixSettings(argc,argv)==1){
+	printf("test2");
 	unsigned char table[resX*resY];						//declare and allocates memory for the table
-	plotJulia(table);						//populates the table
-	createPGM(table);							//prints the table
+	printf("test3");
+        plotJulia(table);						//populates the table
+	printf("test4");
+       	createPGM(table);							//prints the table
+	printf("test5");     
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
