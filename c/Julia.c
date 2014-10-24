@@ -98,7 +98,7 @@ void plotJulia(unsigned char *start){  						//this function populates the table
 
 void createPGM(unsigned char *table) {
     printf("testa");
-    FILE* image = fopen("output.pgn","wb");
+    FILE* image = fopen("output.pgn","w");
     fprintf(image,"P5\n%d  %d\n%d\n", resX, resY,255);
     printf("%c %c %c\n", table[4], table[6], table[984]);
     fwrite(table, 1, resX*resY*sizeof(unsigned char), image);
