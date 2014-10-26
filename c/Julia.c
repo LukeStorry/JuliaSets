@@ -85,7 +85,7 @@ long findValue(unsigned long i, unsigned long j) {			//this function find the va
 };
 
 
-void plotJulia(unsigned char *start){  						//this function populates the table
+void fillArray(unsigned char *start){  						//this function populates the array
     unsigned long i,j;							//declares column and row counters
     for(j=0 ; j<(resY) ; j++){						//for every row,
         for(i=0 ; i<(resX) ; i++){   					//for each cell,
@@ -96,11 +96,11 @@ void plotJulia(unsigned char *start){  						//this function populates the table
 };
 
 
-void createPGM(unsigned char *table) {
+void createPGM(unsigned char *array) {
     FILE* image = fopen("output.pgn","w");
-    printf("\n %i %i %i \n", table[4], table[6], table[984]);
+    printf("\n %i %i %i \n", array[4], array[6], array[984]);
     fprintf(image,"P5\n%d  %d\n%d\n", resX, resY,255);
-    fwrite(table, sizeof(unsigned char), resX*resY, image);
+    fwrite(array, sizeof(unsigned char), resX*resY, image);
     fclose(image);
     return ;
 };
@@ -110,9 +110,9 @@ int main(int argc, char** argv) {					//main function. it all starts here.
     	printf("test1");
 	
     if (fixSettings(argc,argv)==1){
-	unsigned char table[resX*resY];						//declare and allocates memory for the table
-        plotJulia(table);						//populates the table
-      	createPGM(table);							//prints the table
+	unsigned char array[resX*resY];						//declare and allocates memory for the array
+        fillArray(array);						//populates the array
+      	createPGM(array);							//prints the array
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
