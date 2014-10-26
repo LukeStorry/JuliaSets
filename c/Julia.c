@@ -97,11 +97,10 @@ void plotJulia(unsigned char *start){  						//this function populates the table
 
 
 void createPGM(unsigned char *table) {
-    printf("testa");
     FILE* image = fopen("output.pgn","w");
+    printf("\n %i %i %i \n", table[4], table[6], table[984]);
     fprintf(image,"P5\n%d  %d\n%d\n", resX, resY,255);
-    printf("%c %c %c\n", table[4], table[6], table[984]);
-    fwrite(table, 1, resX*resY*sizeof(unsigned char), image);
+    fwrite(table, sizeof(unsigned char), resX*resY, image);
     fclose(image);
     return ;
 };
@@ -111,13 +110,9 @@ int main(int argc, char** argv) {					//main function. it all starts here.
     	printf("test1");
 	
     if (fixSettings(argc,argv)==1){
-	printf("test2");
 	unsigned char table[resX*resY];						//declare and allocates memory for the table
-	printf("test3");
         plotJulia(table);						//populates the table
-	printf("test4");
       	createPGM(table);							//prints the table
-	printf("test5");     
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
