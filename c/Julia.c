@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#define NOOFSETTINGS 9
+#include <string.h> 
+#define NOOFSETTINGS 10 
 
 typedef struct {							//defined a new datatype to ease the handling of complex numbers.
     double x;								//the real cooeficient of the complex number
@@ -18,25 +18,31 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     long    resY = 1024;
     unsigned int  maxIts = 254;
     complex julC = {-1,0};
-
+    char filepath[100] = "output.pgm";
 
 int fixSettings(int argc, char** argv) {
-    if (argc == 1) {				    //If not extra parameters,
-	return 1;				    //just leave the default values
-    } else if (argc != (NOOFSETTINGS+1)){	    //if some parameters but not enough,
-	return 0;				    //fail
-    } else {					    //otherwise, if there are enough parameters,
-	minX = atof(argv[1]);			    //set the globals from the parameters
-	maxX = atof(argv[2]);
-	minY = atof(argv[3]);
-	maxY = atof(argv[4]);
-	resX = atof(argv[5]);
-	resY = atof(argv[6]);	
-	maxIts = atof(argv[7]);
-	julC.x = atof(argv[8]);
-	julC.y = atof(argv[9]);
-	return 1;
+    switch (argc) {
+	case 1:
+	    break;
+	case 2:
+	    strcpy(filepath,argv[1]);
+	    break;
+	case NOOFSETTINGS:
+	    minX = atof(argv[1]);
+	    maxX = atof(argv[2]);
+	    minY = atof(argv[3]);
+	    maxY = atof(argv[4]);
+	    resX = atof(argv[5]);
+	    resY = atof(argv[6]);	
+	    maxIts = atof(argv[7]);
+	    julC.x = atof(argv[8]);
+	    julC.y = atof(argv[9]);
+	    strcpy(filepath,argv[10]);
+	    break;
+	default:
+	    return 0;
     };
+    return 1;
 };
 
 
@@ -97,7 +103,7 @@ void fillArray(unsigned int *start){  						//this function populates the array
 
 
 void createPGM(unsigned int *array) {
-    FILE* image = fopen("output.pgn","w");
+    FILE* image = fopen(filepath,"w");
     fprintf(image,"P5\n%lu  %lu\n%d\n", resX, resY,255);
     fwrite(array, sizeof(unsigned int), resX*resY, image);
     fclose(image);
@@ -113,7 +119,7 @@ int main(int argc, char** argv) {					//main function. it all starts here.
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
-     	printf("They should be: minX maxX minY maxY resX resY maxIts julC.x julC.y \n");
+     	printf("They should be: minX maxX minY maxY resX resY maxIts julC.x julC.y filepath\n");
         return 1;
     };
 };
