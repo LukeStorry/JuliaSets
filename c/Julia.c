@@ -12,11 +12,11 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
 //default settings:
     double  minX = -1.8;
     double  maxX = 1.8;
-    double  minY = -1.3;
-    double  maxY = 1.3;
-    long    resX = 10;
-    long    resY = 104;
-    unsigned int  maxIts = 255;
+    double  minY = -1.44;
+    double  maxY = 1.44;
+    long    resX = 1280;
+    long    resY = 1024;
+    unsigned int  maxIts = 254;
     complex julC = {-1,0};
 
 
@@ -98,8 +98,7 @@ void fillArray(unsigned int *start){  						//this function populates the array
 
 void createPGM(unsigned int *array) {
     FILE* image = fopen("output.pgn","w");
-    printf("\n %c %i %i \n", array[4], array[6], array[500000]); //need to test whether this should be n or i.
-    fprintf(image,"P5\n%d  %d\n%d\n", resX, resY,255);
+    fprintf(image,"P5\n%lu  %lu\n%d\n", resX, resY,255);
     fwrite(array, sizeof(unsigned int), resX*resY, image);
     fclose(image);
     return ;
@@ -107,8 +106,6 @@ void createPGM(unsigned int *array) {
 
 
 int main(int argc, char** argv) {					//main function. it all starts here.
-    	printf("test1");
-	
     if (fixSettings(argc,argv)==1){
 	unsigned int array[resX*resY];						//declare and allocates memory for the array
         fillArray(array);						//populates the array
