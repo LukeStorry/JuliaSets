@@ -16,7 +16,7 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     double  maxY = 1.3;
     long    resX = 10;
     long    resY = 104;
-    unsigned char  maxIts = 255;
+    unsigned int  maxIts = 255;
     complex julC = {-1,0};
 
 
@@ -48,7 +48,7 @@ complex translate(long i, long j) {					//translates the (i,j) array coordinates
 };
 
 
-char exceededMax(unsigned char input) {					//this function tests whether iterations has hit the maximum allwed
+int exceededMax(unsigned int input) {					//this function tests whether iterations has hit the maximum allwed
     if (input > maxIts) {						//if the current number of iterations is higher than the max allowed,
         return 1;							//then return true
     } else {								//otherwise, when the iterations have not yet reached maximum,
@@ -57,7 +57,7 @@ char exceededMax(unsigned char input) {					//this function tests whether iterat
 };
 
 
-char escaped(complex point) {					//This function tests for if the point has escaped and will not return
+int escaped(complex point) {					//This function tests for if the point has escaped and will not return
     if ( (abs(point.x + julC.x) > 5) || (abs(point.y + julC.y) > 5)){	//If the point is big,
         return 1;							//then return true
     } else {								//else, when the point is small
@@ -76,7 +76,7 @@ complex iterate(complex input) {    					//This function performs a function upo
 
 long findValue(unsigned long i, unsigned long j) {			//this function find the value with which to populate each cell
     complex point = translate(i,j);					//translates the (i,j) array coordinates into a (x,y) complex number
-    unsigned char iterations = 0;					//declares the iteration counter
+    unsigned int iterations = 0;					//declares the iteration counter
     while( ! exceededMax(iterations) && ! escaped(point) ) {		//while the point hasn't escaped, or iterations almost hit infinity
         point = iterate(point);						//perform the function on the point
         iterations++;							//increment the diagnostics counter
@@ -85,7 +85,7 @@ long findValue(unsigned long i, unsigned long j) {			//this function find the va
 };
 
 
-void fillArray(unsigned char *start){  						//this function populates the array
+void fillArray(unsigned int *start){  						//this function populates the array
     unsigned long i,j;							//declares column and row counters
     for(j=0 ; j<(resY) ; j++){						//for every row,
         for(i=0 ; i<(resX) ; i++){   					//for each cell,
@@ -96,11 +96,11 @@ void fillArray(unsigned char *start){  						//this function populates the array
 };
 
 
-void createPGM(unsigned char *array) {
+void createPGM(unsigned int *array) {
     FILE* image = fopen("output.pgn","w");
-    printf("\n %i %i %i \n", array[4], array[6], array[500000]); //need to test whether this should be n or i.
+    printf("\n %c %i %i \n", array[4], array[6], array[500000]); //need to test whether this should be n or i.
     fprintf(image,"P5\n%d  %d\n%d\n", resX, resY,255);
-    fwrite(array, sizeof(unsigned char), resX*resY, image);
+    fwrite(array, sizeof(unsigned int), resX*resY, image);
     fclose(image);
     return ;
 };
@@ -110,7 +110,7 @@ int main(int argc, char** argv) {					//main function. it all starts here.
     	printf("test1");
 	
     if (fixSettings(argc,argv)==1){
-	unsigned char array[resX*resY];						//declare and allocates memory for the array
+	unsigned int array[resX*resY];						//declare and allocates memory for the array
         fillArray(array);						//populates the array
       	createPGM(array);							//prints the array
 	return 0;
