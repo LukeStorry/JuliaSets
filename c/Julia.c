@@ -40,7 +40,7 @@ int fixSettings(int argc, char** argv) {
 	    strcpy(filepath,argv[10]);
 	    break;
 	default:
-	    return 0;
+	    return 0;						
     };
     return 1;
 };
