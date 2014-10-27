@@ -98,7 +98,7 @@ void fillArray(unsigned char *start){  						//this function populates the array
 
 void createPGM(unsigned char *array) {
     FILE* image = fopen("output.pgn","w");
-    printf("\n %i %i %i \n", array[4], array[6], array[984]);
+    printf("\n %i %i %i \n", array[4], array[6], array[500000]); //need to test whether this should be n or i.
     fprintf(image,"P5\n%d  %d\n%d\n", resX, resY,255);
     fwrite(array, sizeof(unsigned char), resX*resY, image);
     fclose(image);
