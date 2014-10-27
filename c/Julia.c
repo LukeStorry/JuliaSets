@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
-#define NOOFSETTINGS 10 
+#define NOOFSETTINGS 11 
 
 typedef struct {							//defined a new datatype to ease the handling of complex numbers.
     double x;								//the real cooeficient of the complex number
