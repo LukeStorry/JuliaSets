@@ -104,7 +104,7 @@ void fillArray(unsigned int *start){  						//this function populates the array
 
 void createPGM(unsigned int *array) {
     FILE* image = fopen(filepath,"w");
-    fprintf(image,"P5\n%lu  %lu\n%d\n", resX, resY,255);
+    fprintf(image,"P5 %lu %lu %d\n", resX, resY,255);
     fwrite(array, sizeof(unsigned int), resX*resY, image);
     fclose(image);
     return ;
