@@ -5,14 +5,14 @@ var xMax = 1.8;
 var yMin = -1.4;
 var yMax = 1.4;
 var resolution = 20;
-var iterLimit= 99;
+var iterLimit= 9;
+var explosLimit = 3
 
-
-var findNumber = function(i,j) {				//function to find how many iterations before the number explodes. 
+var findNumber = function(i,j) {    			//function to find how many iterations before the number explodes. 
   var a, b, iterations = 0;					
   x = xMin+j*(xMax-xMin)/resolution;             //transform array j coordinate to complex plane x coordinates?
   y = yMax-i*(yMax-yMin)/resolution;	             // transform array i coordinate to complex plane y coordinate
-  while (Math.abs(x+juliaC[0])<1.5 && Math.abs(y+juliaC[1])<1.5 && iterations<iterLimit) { 
+  while (Math.abs(x)<explosLimit && Math.abs(y)<explosLimit && iterations<iterLimit) { 
     a = x*x-y*y+juliaC[0];                   //apply function to temp variables
     b = 2*x*y+juliaC[1];	
     x = a;                                       //reassign values to x&y
