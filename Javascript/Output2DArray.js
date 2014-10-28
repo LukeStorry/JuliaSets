@@ -1,4 +1,4 @@
- //Global Variables. Can ask for input in later versions
+//Global Variables. Can ask for input in later versions
 var juliaC = [0,0];
 var xMin = -2.1;
 var xMax = 2;
