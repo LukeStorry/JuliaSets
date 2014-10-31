@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h> 
-
-#define NOOFSETTINGS 9
+#include <stdlib.h>
+#include <string.h> 
+#define NOOFSETTINGS 11 
 
 typedef struct {							//defined a new datatype to ease the handling of complex numbers.
     double x;								//the real cooeficient of the complex number
@@ -10,33 +10,39 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
 
 
 //default settings:
-    double  minX = -2;
-    double  maxX = 2;
-    double  minY = -2;
-    double  maxY = 2;
-    long    resX = 140;
-    long    resY = 50;
-    double  maxIts = 98;
+    double  minX = -1.8;
+    double  maxX = 1.8;
+    double  minY = -1.44;
+    double  maxY = 1.44;
+    long    resX = 1280;
+    long    resY = 1024;
+    unsigned int  maxIts = 254;
     complex julC = {-1,0};
-
+    char filepath[100] = "output.ppm";
 
 int fixSettings(int argc, char** argv) {
-    if (argc == 1) {				    //If not extra parameters,
-	return 1;				    //just leave the default values
-    } else if (argc != (NOOFSETTINGS+1)){	    //if some parameters but not enough,
-	return 0;				    //fail
-    } else {					    //otherwise, if there are enough parameters,
-	minX = atof(argv[1]);			    //set the globals from the parameters
-	maxX = atof(argv[2]);
-	minY = atof(argv[3]);
-	maxY = atof(argv[4]);
-	resX = atof(argv[5]);
-	resY = atof(argv[6]);	
-	maxIts = atof(argv[7]);
-	julC.x = atof(argv[8]);
-	julC.y = atof(argv[9]);
-	return 1;
+    switch (argc) {
+	case 1:
+	    break;
+	case 2:
+	    strcpy(filepath,argv[1]);
+	    break;
+	case NOOFSETTINGS:
+	    minX = atof(argv[1]);
+	    maxX = atof(argv[2]);
+	    minY = atof(argv[3]);
+	    maxY = atof(argv[4]);
+	    resX = atof(argv[5]);
+	    resY = atof(argv[6]);	
+	    maxIts = atof(argv[7]);
+	    julC.x = atof(argv[8]);
+	    julC.y = atof(argv[9]);
+	    strcpy(filepath,argv[10]);
+	    break;
+	default:
+	    return 0;						
     };
+    return 1;
 };
 
 
@@ -48,7 +54,7 @@ complex translate(long i, long j) {					//translates the (i,j) array coordinates
 };
 
 
-char exceededMax(unsigned long input) {					//this function tests whether iterations has hit the maximum allwed
+int exceededMax(unsigned int input) {					//this function tests whether iterations has hit the maximum allwed
     if (input > maxIts) {						//if the current number of iterations is higher than the max allowed,
         return 1;							//then return true
     } else {								//otherwise, when the iterations have not yet reached maximum,
@@ -57,7 +63,7 @@ char exceededMax(unsigned long input) {					//this function tests whether iterat
 };
 
 
-char escaped(complex point) {					//This function tests for if the point has escaped and will not return
+int escaped(complex point) {					//This function tests for if the point has escaped and will not return
     if ( (abs(point.x + julC.x) > 5) || (abs(point.y + julC.y) > 5)){	//If the point is big,
         return 1;							//then return true
     } else {								//else, when the point is small
@@ -76,58 +82,40 @@ complex iterate(complex input) {    					//This function performs a function upo
 
 long findValue(unsigned long i, unsigned long j) {			//this function find the value with which to populate each cell
     complex point = translate(i,j);					//translates the (i,j) array coordinates into a (x,y) complex number
-    unsigned long iterations = 0;					//declares the iteration counter
+    unsigned int iterations = 0;					//declares the iteration counter
     while( ! exceededMax(iterations) && ! escaped(point) ) {		//while the point hasn't escaped, or iterations almost hit infinity
         point = iterate(point);						//perform the function on the point
         iterations++;							//increment the diagnostics counter
     };
-    return iterations;							//return the number of iterations that it took for the complex to explode
+    return iterations;					//return the number of iterations that it took for the complex to explode
 };
 
 
-void plotJulia(long *start){  						//this function populates the table
-    unsigned long i,j;							//declares column and row counters
+//using http://www.physics.emory.edu/faculty/weeks//graphics/mkppm.html
+void createPPM() {
+    unsigned long i,j;
+    FILE* image = fopen(filepath,"w");
+    fprintf(image,"P3\n");
+    fprintf(image,"#A Julia set image, generated in C by Luke Storry\n");
+    fprintf(image,"%lu %lu\n%d\n", resX, resY,255);
     for(j=0 ; j<(resY) ; j++){						//for every row,
         for(i=0 ; i<(resX) ; i++){   					//for each cell,
-             *(start+(j*resX)+i) = findValue(i,j);			//set that pointer's address to be the value of the iterations
+             fprintf(image,"%i %i %li ",0,0,findValue(i,j));
         };
     };
-};
-
-void printSymbol(long n) {						// Finds ASCII character for 
-    if (n == maxIts){
-	printf("\u2588");
-    } else if (n > maxIts/15) {
-	printf("\u2593");
-    } else if (n > maxIts/30){
-	printf("\u2592");
-    } else if (n > maxIts/60) {
-	printf("\u2591");
-    } else {
-	printf(" ");
-    };
-};
-
-void output(long *start) {						//this function outputs the table
-    unsigned long i,j;							//declares column and row counters;
-    for(j=0 ; j<resY ; j++){						//for each row,
-        for(i=0 ; i<resX ; i++){					//for each cell,
-            printSymbol(*(start+(j*resX)+i));				//print the symbol that fits that number of iterations
-        };
-    printf("\n");							//at the end of every row, start a new line.
-    };
+//  fwrite(array, sizeof(unsigned int), resX*resY, image);
+    fclose(image);
+    return ;
 };
 
 
 int main(int argc, char** argv) {					//main function. it all starts here.
     if (fixSettings(argc,argv)==1){
-	long table[resX*resY];						//declare and allocates memory for the table
-	plotJulia(table);						//populates the table
-	output(table);							//prints the table
+      	createPPM();							//prints the array
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
-     	printf("They should be: minX maxX minY maxY resX resY maxIts julC.x julC.y \n");
+     	printf("They should be: minX maxX minY maxY resX resY maxIts julC.x julC.y filepath\n");
         return 1;
     };
 };
