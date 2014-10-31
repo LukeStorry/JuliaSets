@@ -18,7 +18,7 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     long    resY = 1024;
     unsigned int  maxIts = 254;
     complex julC = {-1,0};
-    char filepath[100] = "output.pgm";
+    char filepath[100] = "output.ppm";
 
 int fixSettings(int argc, char** argv) {
     switch (argc) {
@@ -91,21 +91,19 @@ long findValue(unsigned long i, unsigned long j) {			//this function find the va
 };
 
 
-void fillArray(unsigned int *start){  						//this function populates the array
-    unsigned long i,j;							//declares column and row counters
+//using http://www.physics.emory.edu/faculty/weeks//graphics/mkppm.html
+void createPPM() {
+    unsigned long i,j;
+    FILE* image = fopen(filepath,"w");
+    fprintf(image,"P3\n");
+    fprintf(image,"#A Julia set image, generated in C by Luke Storry\n");
+    fprintf(image,"%lu %lu\n%d\n", resX, resY,255);
     for(j=0 ; j<(resY) ; j++){						//for every row,
         for(i=0 ; i<(resX) ; i++){   					//for each cell,
-             *(start+(j*resX)+i) = findValue(i,j);			//set that pointer's address to be the value of the iterations
+             fprintf(image,"%i %i %li ",60,100,findValue(i,j));
         };
     };
-    return ; 
-};
-
-
-void createPGM(unsigned int *array) {
-    FILE* image = fopen(filepath,"w");
-    fprintf(image,"P5\n%lu %lu\n%d\n", resX, resY,255);
-    fwrite(array, sizeof(unsigned int), resX*resY, image);
+//  fwrite(array, sizeof(unsigned int), resX*resY, image);
     fclose(image);
     return ;
 };
@@ -113,9 +111,7 @@ void createPGM(unsigned int *array) {
 
 int main(int argc, char** argv) {					//main function. it all starts here.
     if (fixSettings(argc,argv)==1){
-	unsigned int array[resX*resY];						//declare and allocates memory for the array
-        fillArray(array);						//populates the array
-      	createPGM(array);							//prints the array
+      	createPPM();							//prints the array
 	return 0;
     } else {
 	printf("Incorrect Parameters\n");
