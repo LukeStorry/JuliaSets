@@ -100,7 +100,7 @@ void createPPM() {
     fprintf(image,"%lu %lu\n%d\n", resX, resY,255);
     for(j=0 ; j<(resY) ; j++){						//for every row,
         for(i=0 ; i<(resX) ; i++){   					//for each cell,
-             fprintf(image,"%i %i %li ",60,100,findValue(i,j));
+             fprintf(image,"%i %i %li ",0,0,findValue(i,j));
         };
     };
 //  fwrite(array, sizeof(unsigned int), resX*resY, image);
