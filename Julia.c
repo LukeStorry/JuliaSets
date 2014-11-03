@@ -1,3 +1,5 @@
+/* A Julia set plotter/drawer in C. Written by Luke Storry*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
@@ -16,9 +18,11 @@ typedef struct {							//defined a new datatype to ease the handling of complex 
     double  maxY = 1.44;
     long    resX = 1280;
     long    resY = 1024;
-    unsigned int  maxIts = 254;
+    unsigned  maxIts = 254;
+    double  escmax = 50;
     complex julC = {-1,0};
     char filepath[100] = "output.ppm";
+
 
 int fixSettings(int argc, char** argv) {
     switch (argc) {
@@ -56,7 +60,7 @@ int exceededMax(unsigned int input) {					//this function tests whether iteratio
 
 
 int escaped(complex point) {					//This function tests for if the point has escaped and will not return
-    if ( (abs(point.x + julC.x) > 5) || (abs(point.y + julC.y) > 5)){	//If the point is big,
+    if ( (abs(point.x + julC.x) > escmax) || (abs(point.y + julC.y) > escmax)){	//If the point is big,
         return 1;							//then return true
     } else {								//else, when the point is small
         return 0;							//return false
@@ -72,9 +76,8 @@ complex iterate(complex input) {    					//This function performs a function upo
 };
 
 
-long findValue(double i, double j) {			//this function find the value with which to populate each cell
-    printf("%2f\n", i);
-    complex point = {i,j};					//translates the (i,j) array coordinates into a (x,y) complex number
+long findValue(double x, double y) {			//this function find the value with which to populate each cell
+    complex point = {x,y};					//translates the (i,j) array coordinates into a (x,y) complex number
     unsigned int iterations = 0;					//declares the iteration counter
     while( ! exceededMax(iterations) && ! escaped(point) ) {		//while the point hasn't escaped, or iterations almost hit infinity
         point = iterate(point);						//perform the function on the point
@@ -85,33 +88,27 @@ long findValue(double i, double j) {			//this function find the value with which
 
 
 void fillPPM(FILE* file) {
-    double i,j;
-    for(j=maxY ; j>minY ; j-=(maxY-minY)/resY){						//for every row,
-        for(i=minX ; i<maxX ; i+=(maxX-maxX)/resX){   					//for each cell,
-             fprintf(file,"%i %i %li ",0,0,findValue(i,j));
+    double x,y;
+    for(y=maxY ; y>=minY ; y-=((maxY-minY)/resY)){						//for every row,
+	for(x=minX ; x<=maxX ; x+=((maxX-minX)/resX)){   					//for each cell,
+             fprintf(file,"%i %i %li ",0,0,findValue(x,y));
         };
     };
 };
 
 //using http://www.physics.emory.edu/faculty/weeks//graphics/mkppm.html
 void createPPM() {
-    printf("0\n");
     FILE* file = fopen(filepath,"w");
     fprintf(file,"P3\n");
     fprintf(file,"#A Julia set image, generated in C by Luke Storry\n");
     fprintf(file,"%lu %lu\n%d\n", resX, resY,255);
-    printf("1\n");
     fillPPM(file);
-    printf("2\n");
     fclose(file);
-    return ;
 };
 
 
 int main(int argc, char** argv) {					//main function. it all starts here.
-    printf("000\n");
     if (fixSettings(argc,argv)==1){
-        printf("test\n");
       	createPPM();							//prints the array
 	return 0;
     } else {
