@@ -46,14 +46,6 @@ int fixSettings(int argc, char** argv) {
 };
 
 
-complex translate(long i, long j) {					//translates the (i,j) array coordinates into the required complex number
-    complex output;							//declares variable is which to hold the output values
-    output.x = minX + i * (maxX - minX) / resX;				//calculates the x value of the complex number that corresponds to that array cell
-    output.y = maxY - j * (maxY - minY) / resY;				//calculates the y value of the complex number that corresponds to that array cell
-    return output;
-};
-
-
 int exceededMax(unsigned int input) {					//this function tests whether iterations has hit the maximum allwed
     if (input > maxIts) {						//if the current number of iterations is higher than the max allowed,
         return 1;							//then return true
@@ -80,8 +72,9 @@ complex iterate(complex input) {    					//This function performs a function upo
 };
 
 
-long findValue(unsigned long i, unsigned long j) {			//this function find the value with which to populate each cell
-    complex point = translate(i,j);					//translates the (i,j) array coordinates into a (x,y) complex number
+long findValue(double i, double j) {			//this function find the value with which to populate each cell
+    printf("%2f\n", i);
+    complex point = {i,j};					//translates the (i,j) array coordinates into a (x,y) complex number
     unsigned int iterations = 0;					//declares the iteration counter
     while( ! exceededMax(iterations) && ! escaped(point) ) {		//while the point hasn't escaped, or iterations almost hit infinity
         point = iterate(point);						//perform the function on the point
@@ -91,26 +84,34 @@ long findValue(unsigned long i, unsigned long j) {			//this function find the va
 };
 
 
-//using http://www.physics.emory.edu/faculty/weeks//graphics/mkppm.html
-void createPPM() {
-    unsigned long i,j;
-    FILE* image = fopen(filepath,"w");
-    fprintf(image,"P3\n");
-    fprintf(image,"#A Julia set image, generated in C by Luke Storry\n");
-    fprintf(image,"%lu %lu\n%d\n", resX, resY,255);
-    for(j=0 ; j<(resY) ; j++){						//for every row,
-        for(i=0 ; i<(resX) ; i++){   					//for each cell,
-             fprintf(image,"%i %i %li ",0,0,findValue(i,j));
+void fillPPM(FILE* file) {
+    double i,j;
+    for(j=maxY ; j>minY ; j-=(maxY-minY)/resY){						//for every row,
+        for(i=minX ; i<maxX ; i+=(maxX-maxX)/resX){   					//for each cell,
+             fprintf(file,"%i %i %li ",0,0,findValue(i,j));
         };
     };
-//  fwrite(array, sizeof(unsigned int), resX*resY, image);
-    fclose(image);
+};
+
+//using http://www.physics.emory.edu/faculty/weeks//graphics/mkppm.html
+void createPPM() {
+    printf("0\n");
+    FILE* file = fopen(filepath,"w");
+    fprintf(file,"P3\n");
+    fprintf(file,"#A Julia set image, generated in C by Luke Storry\n");
+    fprintf(file,"%lu %lu\n%d\n", resX, resY,255);
+    printf("1\n");
+    fillPPM(file);
+    printf("2\n");
+    fclose(file);
     return ;
 };
 
 
 int main(int argc, char** argv) {					//main function. it all starts here.
+    printf("000\n");
     if (fixSettings(argc,argv)==1){
+        printf("test\n");
       	createPPM();							//prints the array
 	return 0;
     } else {
