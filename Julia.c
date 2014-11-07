@@ -2,8 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> 
-#define NOOFSETTINGS 11 
+#include <string.h>  
 
 typedef struct {							//defined a new datatype to ease the handling of complex numbers.
     double x;								//the real cooeficient of the complex number
@@ -30,14 +29,16 @@ bool fixSettings(int argc, char** argv, settings * s) {
     bool allOK = true;
     switch (argc) {
 	case 1:
-	    printf("5\n");
-	    (*s) = (settings){-1.5,1.5,-1.5,1.5,200,200,255, 50,(complex){-1,0},"output.ppm"}; //default settings
-	    printf("6\n");
-	case 2:
-	    (*s) = (settings){-1.5,1.5,-1.5,1.5,200,200,255, 50,(complex){-1,0},""}; //defaults
-	    strcpy((*s).filepath,argv[1]);
+	    *s = (settings){-1.5,1.5,-1.5,1.5,200,200,255, 50,(complex){-1,0},"output.ppm"}; //default settings
+	    allOK = true;
 	    break;
-	case NOOFSETTINGS:
+	case 2:
+	    *s = (settings){-1.5,1.5,-1.5,1.5,200,200,255, 50,(complex){-1,0},""}; //defaults
+	    printf("5\n");
+	    strcpy((*s).filepath,argv[1]);
+	    printf("6\n");
+	    break;
+	case 11:
 	    (*s).minX = atof(argv[1]);
 	    (*s).maxX = atof(argv[2]);
 	    (*s).minY = atof(argv[3]);
@@ -124,7 +125,7 @@ int main(int argc, char** argv) {					//main function. it all starts here.
     printf("3\n");
     if (fixSettings(argc,argv,&s) == true){
         printf("4\n");
-	//createPPM(s);							//prints the array
+	createPPM(s);							//prints the array
     } else {
 	printf("Incorrect Parameters\n");
      	printf("They should be: minX maxX minY maxY resX resY maxIts julC.x julC.y filepath\n");
