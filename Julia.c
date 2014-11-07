@@ -34,9 +34,7 @@ bool fixSettings(int argc, char** argv, settings * s) {
 	    break;
 	case 2:
 	    *s = (settings){-1.5,1.5,-1.5,1.5,200,200,255, 50,(complex){-1,0},""}; //defaults
-	    printf("5\n");
 	    strcpy((*s).filepath,argv[1]);
-	    printf("6\n");
 	    break;
 	case 11:
 	    (*s).minX = atof(argv[1]);
@@ -113,16 +111,13 @@ void createPPM(settings s) {
     fprintf(file,"P3\n");
     fprintf(file,"#A Julia set image, generated in C by Luke Storry\n");
     fprintf(file,"%lu %lu\n%d\n", s.resX, s.resY, 255);
-    printf("1\n");
     fillPPM(file,s);
-    printf("2\n");
     fclose(file);
 };
 
 
 int main(int argc, char** argv) {					//main function. it all starts here.
     settings s;
-    printf("3\n");
     if (fixSettings(argc,argv,&s) == true){
         printf("4\n");
 	createPPM(s);							//prints the array
