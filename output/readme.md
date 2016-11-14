@@ -1,1 +1,1 @@
-This folder contains some screenshots of some of the outputs of this program
+This folder contains some screenshots and converted ppm outputs. :)
