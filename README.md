@@ -1,7 +1,7 @@
-##JuliaSets
+## JuliaSets
 =========
 
-###Plotting Julia sets on Argand diagrams
+### Plotting Julia sets on Argand diagrams
 
 This leads on from my Extended Essay, a brief presentation can be found here: http://prezi.com/cyg1ladocm9d/my-extended-essay-exploring-julia-sets/
 
