@@ -18,4 +18,5 @@ By colour-coding and outputting to jpg, higher resolution images are available:
 
 ![output/f-1.jpg](https://github.com/LukeStorry/JuliaSets/blob/master/output/f-1.jpg?raw=true)
 
-![output/f-i.jpg](https://github.com/LukeStorry/JuliaSets/blob/master/output/f-i.jpg?raw=true)
+And by lopoing through different parameters to the function, a funky gif can also be generated:
+![fast juliasets cycle](fast juliasets cycle.gif)
